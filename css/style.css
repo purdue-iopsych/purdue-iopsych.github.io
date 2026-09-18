@@ -376,6 +376,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 }
 .goal-list b { color: var(--black); }
 
+.anniversary-mark { width: 92px; height: auto; margin-bottom: 1.4rem; }
+
 /* ------------------------------------------------------------- footer --- */
 .site-footer { background: var(--black); color: var(--steam); margin-top: 0; padding: clamp(2.8rem, 5vw, 4rem) 0 0; }
 .footer-grid {
