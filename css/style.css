@@ -238,6 +238,15 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 .person-meta a { color: var(--aged); }
 .person-interests { font-size: .93rem; color: var(--ink-soft); margin-bottom: 0; }
 
+.admitting {
+  display: inline-flex; align-items: center; gap: .5em;
+  background: var(--band-deep); border: 1px solid var(--gold);
+  border-radius: 999px; padding: .3em .85em;
+  font-size: .82rem; font-weight: 600; color: var(--aged);
+  margin: 0 0 .6rem;
+}
+.admitting .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--aged); flex: none; }
+
 .chip-list { list-style: none; display: flex; flex-wrap: wrap; gap: .6rem; padding: 0; margin: 0; }
 .chip-list li {
   background: var(--band-deep); border: 1px solid var(--line);
@@ -378,6 +387,27 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 
 .anniversary-mark { width: 92px; height: auto; margin-bottom: 1.4rem; }
 
+/* ----------------------------------------------------------- feedback --- */
+/* sits between a page's last section and the black footer, so it needs to read
+   as its own band whether the section above it is white or tinted */
+.feedback-strip {
+  background: var(--paper);
+  border-top: 3px solid var(--gold);
+  padding: clamp(2rem, 4vw, 2.8rem) 0;
+}
+.feedback-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem 2.5rem; flex-wrap: wrap;
+}
+.feedback-inner h2 { font-size: 1.35rem; margin-bottom: .35rem; }
+.feedback-inner p { color: var(--ink-soft); font-size: .96rem; max-width: 58ch; margin: 0; }
+.feedback-inner .btn { flex: none; }
+
+.form-embed {
+  width: 100%; min-height: 900px; border: 1px solid var(--line);
+  border-radius: 4px; background: var(--paper);
+}
+
 /* ------------------------------------------------------------- footer --- */
 .site-footer { background: var(--black); color: var(--steam); margin-top: 0; padding: clamp(2.8rem, 5vw, 4rem) 0 0; }
 .footer-grid {
@@ -426,6 +456,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
   .header-inner { position: relative; }
   .brand-text { font-size: .8rem; }
   .brand-text b { font-size: .78rem; }
+}
+
+@media (max-width: 700px) {
+  .feedback-inner { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 620px) {

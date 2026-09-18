@@ -90,6 +90,33 @@ const REDIRECTS = {
 
 const canonical = (slug) => BASE + (PAGES[slug].url === "/" ? "/" : PAGES[slug].url);
 
+/* ------------------------------------------------------------- feedback ---
+ * Pages is static, so feedback needs an off-site endpoint. This is wired to a
+ * Google Form: responses land in a Sheet the program already controls, and the
+ * page the reader was on is prefilled automatically so comments arrive tagged.
+ *
+ * To connect it, fill in both values (see CLAUDE.md for how to find them).
+ * While `formUrl` is empty the site falls back to a mailto: link, so nothing
+ * on the page is ever broken.
+ */
+const FEEDBACK = {
+  formUrl: "",          // e.g. https://docs.google.com/forms/d/e/1FAIpQLSc.../viewform
+  pageEntry: "",        // e.g. entry.1234567890  -> the "Which page" question
+  fallbackEmail: "PAGSIP@purdue.edu",
+};
+
+function feedbackLink(slug) {
+  const where = PAGES[slug] ? PAGES[slug].url : "/";
+  if (!FEEDBACK.formUrl) {
+    return `mailto:${FEEDBACK.fallbackEmail}?subject=${encodeURIComponent("Website feedback: " + where)}`;
+  }
+  const sep = FEEDBACK.formUrl.includes("?") ? "&" : "?";
+  const q = FEEDBACK.pageEntry
+    ? `${sep}usp=pp_url&${FEEDBACK.pageEntry}=${encodeURIComponent(where)}`
+    : `${sep}usp=pp_url`;
+  return FEEDBACK.formUrl + q;
+}
+
 /* --------------------------------------------------------------- shell --- */
 const headerHTML = `
 <header class="site-header">
@@ -107,7 +134,16 @@ const headerHTML = `
   </div>
 </header>`;
 
-const footerHTML = `
+const footer = (slug) => `
+<section class="feedback-strip">
+  <div class="wrap feedback-inner">
+    <div>
+      <h2>Spot something out of date?</h2>
+      <p>This site is maintained by the I-O area. If a name, title, date, or link on this page is wrong, tell us and we will fix it.</p>
+    </div>
+    <a class="btn" href="${feedbackLink(slug)}"${FEEDBACK.formUrl ? ' target="_blank" rel="noopener"' : ""}>Give feedback on this page <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</section>
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
@@ -224,7 +260,7 @@ ${headerHTML}
 <main id="main">
 ${main.trim()}
 </main>
-${footerHTML}
+${footer(slug)}
 ${navScript}
 </body>
 </html>
@@ -238,10 +274,29 @@ function renderFaculty() {
       <img class="person-photo" src="/${f.photo}" alt="Photograph of ${esc(f.name)}" width="400" height="400">
       <div class="person-body">
         <h3 class="person-name">${esc(f.name)}</h3>
+        ${f.admitting ? `<p class="admitting"><span class="dot" aria-hidden="true"></span>Admitting a student for ${esc(f.admitting)}</p>` : ""}
         <p class="person-meta"><a href="mailto:${esc(f.email)}">${esc(f.email)}</a></p>
         <p class="person-interests"><span class="label">Research interests</span> ${esc(f.interests)}</p>
       </div>
     </article>`).join("\n");
+}
+
+/* Derived from people.json so the prose can never contradict the badges. */
+function renderAdmittingSummary() {
+  const fac = data("people").faculty;
+  const open = fac.filter((f) => f.admitting);
+  if (!open.length) return "";
+  const cycles = [...new Set(open.map((f) => f.admitting))];
+  const who = open.length === fac.length
+    ? `All ${fac.length} core faculty are`
+    : open.length === 1
+      ? `${open[0].name} is`
+      : `${open.length} of our ${fac.length} core faculty are`;
+  const cycle = cycles.length === 1 ? cycles[0] : cycles.join(" and ");
+  const names = open.length === fac.length ? "" :
+    ` (${open.map((f) => esc(f.name)).join(", ")})`;
+  return `<p class="callout admitting-note"><b>${who} admitting students for ${esc(cycle)}.</b>${names}
+    Prospective applicants are encouraged to contact the faculty member whose research interests match their own.</p>`;
 }
 
 function renderCourtesy() {
@@ -348,6 +403,7 @@ function renderGallery() {
 
 const RENDERERS = {
   FACULTY: renderFaculty,
+  ADMITTING_SUMMARY: renderAdmittingSummary,
   COURTESY: renderCourtesy,
   STUDENTS: renderStudents,
   NEWS_ITEMS: renderNews,

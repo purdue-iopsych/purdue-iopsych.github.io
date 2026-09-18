@@ -1,32 +1,109 @@
 {
   "faculty": [
-    { "name": "Alex Harris-Watson", "email": "aharrisw@purdue.edu", "photo": "images/faculty-harris-watson.jpg",
-      "interests": "Personality and individual differences; applied psychometrics, selection, and assessment; collaborative interpersonal relationships (e.g., teams, leadership); human-AI collaboration, particularly socially interactive AI" },
-    { "name": "Franki Y. H. Kung", "email": "fkung@purdue.edu", "photo": "images/faculty-kung.jpg",
-      "interests": "Conflict management; goals and motivation; cultural diversity; mindsets; difficult conversations" },
-    { "name": "Brooke N. Macnamara", "email": "bmacnama@purdue.edu", "photo": "images/faculty-macnamara.jpg",
-      "interests": "Predictors (e.g., cognitive abilities, emotion-cognition traits, experience, task characteristics) of skill acquisition, expertise, and achievement; beliefs about achievement" },
-    { "name": "Louis Tay", "email": "stay@purdue.edu", "photo": "images/faculty-tay.jpg",
-      "interests": "Measurement; data science; well-being; organizational psychology" },
-    { "name": "Sang Eun Woo", "email": "sewoo@purdue.edu", "photo": "images/faculty-woo.jpg",
-      "interests": "Individual differences (e.g., personality); measurement, positive work psychology; career development and management behaviors; research methods" }
+    {
+      "name": "Alex Harris-Watson",
+      "email": "aharrisw@purdue.edu",
+      "photo": "images/faculty-harris-watson.jpg",
+      "interests": "Personality and individual differences; applied psychometrics, selection, and assessment; collaborative interpersonal relationships (e.g., teams, leadership); human-AI collaboration, particularly socially interactive AI",
+      "admitting": "Fall 2027"
+    },
+    {
+      "name": "Franki Y. H. Kung",
+      "email": "fkung@purdue.edu",
+      "photo": "images/faculty-kung.jpg",
+      "interests": "Conflict management; goals and motivation; cultural diversity; mindsets; difficult conversations",
+      "admitting": "Fall 2027"
+    },
+    {
+      "name": "Brooke N. Macnamara",
+      "email": "bmacnama@purdue.edu",
+      "photo": "images/faculty-macnamara.jpg",
+      "interests": "Predictors (e.g., cognitive abilities, emotion-cognition traits, experience, task characteristics) of skill acquisition, expertise, and achievement; beliefs about achievement",
+      "admitting": "Fall 2027"
+    },
+    {
+      "name": "Louis Tay",
+      "email": "stay@purdue.edu",
+      "photo": "images/faculty-tay.jpg",
+      "interests": "Measurement; data science; well-being; organizational psychology",
+      "admitting": "Fall 2027"
+    },
+    {
+      "name": "Sang Eun Woo",
+      "email": "sewoo@purdue.edu",
+      "photo": "images/faculty-woo.jpg",
+      "interests": "Individual differences (e.g., personality); measurement, positive work psychology; career development and management behaviors; research methods",
+      "admitting": "Fall 2027"
+    }
   ],
   "courtesy": [
-    { "name": "Brian Dineen" }, { "name": "Brad Alge" }, { "name": "Meredith Woehler" },
-    { "name": "Michael Campion" }, { "name": "Ellen Kossek" }, { "name": "Allie Gabriel" }
+    {
+      "name": "Brian Dineen"
+    },
+    {
+      "name": "Brad Alge"
+    },
+    {
+      "name": "Meredith Woehler"
+    },
+    {
+      "name": "Michael Campion"
+    },
+    {
+      "name": "Ellen Kossek"
+    },
+    {
+      "name": "Allie Gabriel"
+    }
   ],
   "students": [
-    { "name": "Changyoon Byun", "year": "2", "advisor": "Dr. Alex Harris-Watson", "email": "cbyun@purdue.edu",
-      "photo": "images/student-byun.jpg", "interests": "Teams; leadership; selection" },
-    { "name": "Hannah Kim", "year": "2", "advisor": "Dr. Franki Kung", "email": "kim4816@purdue.edu",
-      "photo": "images/student-kim.jpg", "interests": "Workplace discrimination; DEI; well-being; stereotypes" },
-    { "name": "Gloria Liou", "year": "4", "advisor": "Dr. Louis Tay", "email": "lioug@purdue.edu",
-      "photo": "images/student-liou.jpg", "interests": "Well-being; authenticity; relationships; technology" },
-    { "name": "Joyce Lum", "year": "1", "advisor": "Dr. Louis Tay", "email": "lum11@purdue.edu",
-      "photo": "images/student-lum.jpg", "interests": "Emotion, well-being, measurement, data analysis" },
-    { "name": "Jeffrey Masser", "year": "4", "advisor": "Dr. Alex Harris-Watson", "email": "jmasser@purdue.edu",
-      "photo": "images/student-masser.jpg", "interests": "Personality, teams, data analysis, selection" },
-    { "name": "Emma Showalter", "year": "2", "advisor": "Dr. Sang Eun Woo", "email": "eshowalt@purdue.edu",
-      "photo": "images/student-showalter.jpg", "interests": "Well-being, motivation, gender differences, meaning of work, sustainable job performance" }
+    {
+      "name": "Changyoon Byun",
+      "year": "2",
+      "advisor": "Dr. Alex Harris-Watson",
+      "email": "cbyun@purdue.edu",
+      "photo": "images/student-byun.jpg",
+      "interests": "Teams; leadership; selection"
+    },
+    {
+      "name": "Hannah Kim",
+      "year": "2",
+      "advisor": "Dr. Franki Kung",
+      "email": "kim4816@purdue.edu",
+      "photo": "images/student-kim.jpg",
+      "interests": "Workplace discrimination; DEI; well-being; stereotypes"
+    },
+    {
+      "name": "Gloria Liou",
+      "year": "4",
+      "advisor": "Dr. Louis Tay",
+      "email": "lioug@purdue.edu",
+      "photo": "images/student-liou.jpg",
+      "interests": "Well-being; authenticity; relationships; technology"
+    },
+    {
+      "name": "Joyce Lum",
+      "year": "1",
+      "advisor": "Dr. Louis Tay",
+      "email": "lum11@purdue.edu",
+      "photo": "images/student-lum.jpg",
+      "interests": "Emotion, well-being, measurement, data analysis"
+    },
+    {
+      "name": "Jeffrey Masser",
+      "year": "4",
+      "advisor": "Dr. Alex Harris-Watson",
+      "email": "jmasser@purdue.edu",
+      "photo": "images/student-masser.jpg",
+      "interests": "Personality, teams, data analysis, selection"
+    },
+    {
+      "name": "Emma Showalter",
+      "year": "2",
+      "advisor": "Dr. Sang Eun Woo",
+      "email": "eshowalt@purdue.edu",
+      "photo": "images/student-showalter.jpg",
+      "interests": "Well-being, motivation, gender differences, meaning of work, sustainable job performance"
+    }
   ]
 }
