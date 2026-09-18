@@ -100,8 +100,16 @@ const canonical = (slug) => BASE + (PAGES[slug].url === "/" ? "/" : PAGES[slug].
  * on the page is ever broken.
  */
 const FEEDBACK = {
-  formUrl: "",          // e.g. https://docs.google.com/forms/d/e/1FAIpQLSc.../viewform
-  pageEntry: "",        // e.g. entry.1234567890  -> the "Which page" question
+  // "New Purdue IO Site Feedback"
+  formUrl: "https://docs.google.com/forms/d/e/1FAIpQLScGSSeWxkQWze0z62CQUti_PrM6jMvtOkPxrAk6-gEDBvqcRg/viewform",
+  // The form's one paragraph question. Run `node scripts/form-entries.js <url>`
+  // to re-read the entry IDs if the form's questions ever change.
+  pageEntry: "entry.1844560478",
+  // Prefilled into that field so every response says which page it is about
+  // without the reader having to remember. If a dedicated short-answer "Which
+  // page" question is ever added, point pageEntry at it and set this to "".
+  pagePrefix: "[Page: ",
+  pageSuffix: "]\n\n",
   fallbackEmail: "PAGSIP@purdue.edu",
 };
 
@@ -110,11 +118,10 @@ function feedbackLink(slug) {
   if (!FEEDBACK.formUrl) {
     return `mailto:${FEEDBACK.fallbackEmail}?subject=${encodeURIComponent("Website feedback: " + where)}`;
   }
+  if (!FEEDBACK.pageEntry) return FEEDBACK.formUrl;
+  const value = (FEEDBACK.pagePrefix || "") + where + (FEEDBACK.pageSuffix || "");
   const sep = FEEDBACK.formUrl.includes("?") ? "&" : "?";
-  const q = FEEDBACK.pageEntry
-    ? `${sep}usp=pp_url&${FEEDBACK.pageEntry}=${encodeURIComponent(where)}`
-    : `${sep}usp=pp_url`;
-  return FEEDBACK.formUrl + q;
+  return `${FEEDBACK.formUrl}${sep}usp=pp_url&${FEEDBACK.pageEntry}=${encodeURIComponent(value)}`;
 }
 
 /* --------------------------------------------------------------- shell --- */
