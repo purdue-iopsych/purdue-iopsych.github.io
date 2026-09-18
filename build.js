@@ -239,6 +239,7 @@ function structuredData(slug) {
       "@type": "Person",
       name: x.name,
       email: "mailto:" + x.email,
+      ...(x.role ? { jobTitle: x.role } : {}),
       affiliation: { "@id": BASE + "/#program" },
       knowsAbout: x.interests,
     })));
@@ -321,12 +322,21 @@ function renderCourtesy() {
   return `<ul class="chip-list">${data("people").courtesy.map((c) => `<li>${esc(c.name)}</li>`).join("")}</ul>`;
 }
 
+/* The PAGSIP membership is the current graduate cohort, so it is rendered from
+   the same list as /people rather than kept as a second copy that can drift. */
+function renderPagsipMembers() {
+  return `<ul class="chip-list">${data("people").students.map((s) =>
+    `<li${s.role ? ' class="chip-role"' : ""}>${esc(s.name)}${s.role ? `<span class="chip-tag">${esc(s.role)}</span>` : ""}</li>`
+  ).join("")}</ul>`;
+}
+
 function renderStudents() {
   return data("people").students.map((s) => `
     <article class="person">
       <img class="person-photo" src="/${s.photo}" alt="Photograph of ${esc(s.name)}" width="400" height="400">
       <div class="person-body">
         <h3 class="person-name">${esc(s.name)}</h3>
+        ${s.role ? `<p class="person-role">${esc(s.role)}</p>` : ""}
         <p class="person-meta">Year ${esc(s.year)} &middot; Advisor: ${esc(s.advisor)}<br><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>
         <p class="person-interests"><span class="label">Research interests</span> ${esc(s.interests)}</p>
       </div>
@@ -423,6 +433,7 @@ const RENDERERS = {
   FACULTY: renderFaculty,
   ADMITTING_SUMMARY: renderAdmittingSummary,
   COURTESY: renderCourtesy,
+  PAGSIP_MEMBERS: renderPagsipMembers,
   STUDENTS: renderStudents,
   NEWS_ITEMS: renderNews,
   ALUMNI: renderAlumni,
