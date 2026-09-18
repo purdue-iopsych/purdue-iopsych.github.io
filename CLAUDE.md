@@ -76,6 +76,11 @@ const FEEDBACK = {
 While `formUrl` is empty the button falls back to a `mailto:` link with the page
 path in the subject, so the site is never broken.
 
+The strip's wording also lives in `FEEDBACK` (`heading`, `body`, `cta`). It is
+currently addressed to the I-O area during internal review. **Before the domain
+cutover it becomes public-facing** — reword it for visitors, or set
+`enabled: false` to drop the strip entirely.
+
 **To connect a Google Form:**
 
 1. Build the form with a short-answer question named **Which page** first, then
