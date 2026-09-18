@@ -111,6 +111,15 @@ const FEEDBACK = {
   pagePrefix: "[Page: ",
   pageSuffix: "]\n\n",
   fallbackEmail: "PAGSIP@purdue.edu",
+
+  // Copy for the strip at the bottom of every page. This is currently aimed at
+  // the I-O area while the new site is under internal review.
+  // TODO before the domain cutover: this becomes public-facing. Either reword it
+  // for visitors or set `enabled: false` to drop the strip entirely.
+  enabled: true,
+  heading: "What would make this page better?",
+  body: "We are reviewing the new site with the I-O area. Corrections, anything missing, wording that does not land, or something you would like this page to do &mdash; all of it is useful.",
+  cta: "Share feedback on this page",
 };
 
 function feedbackLink(slug) {
@@ -141,16 +150,18 @@ const headerHTML = `
   </div>
 </header>`;
 
-const footer = (slug) => `
+const feedbackStrip = (slug) => !FEEDBACK.enabled ? "" : `
 <section class="feedback-strip">
   <div class="wrap feedback-inner">
     <div>
-      <h2>Spot something out of date?</h2>
-      <p>This site is maintained by the I-O area. If a name, title, date, or link on this page is wrong, tell us and we will fix it.</p>
+      <h2>${FEEDBACK.heading}</h2>
+      <p>${FEEDBACK.body}</p>
     </div>
-    <a class="btn" href="${feedbackLink(slug)}"${FEEDBACK.formUrl ? ' target="_blank" rel="noopener"' : ""}>Give feedback on this page <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn" href="${feedbackLink(slug)}"${FEEDBACK.formUrl ? ' target="_blank" rel="noopener"' : ""}>${FEEDBACK.cta} <span aria-hidden="true">&rarr;</span></a>
   </div>
-</section>
+</section>`;
+
+const footer = (slug) => `${feedbackStrip(slug)}
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
