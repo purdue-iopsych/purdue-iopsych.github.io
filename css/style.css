@@ -247,6 +247,39 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 }
 .admitting .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--aged); flex: none; }
 
+/* ------------------------------------------------- post-docs / post-bacs --- */
+.researcher-columns {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.8rem, 4vw, 3.2rem); margin-top: 2rem; align-items: start;
+}
+.researcher-heading {
+  font-family: var(--sans); font-size: .76rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  padding-bottom: .7rem; border-bottom: 2px solid var(--gold); margin-bottom: 1.4rem;
+}
+.researcher-group + .researcher-group { margin-top: 2rem; }
+.researcher-group h3 {
+  font-family: var(--sans); font-size: .82rem; font-weight: 600;
+  color: var(--ink-soft); margin-bottom: .9rem;
+}
+.researcher-list { list-style: none; padding: 0; margin: 0; }
+.researcher-list li {
+  padding: .75rem 0 .75rem 1rem;
+  border-left: 2px solid var(--line);
+  margin-bottom: .4rem;
+}
+.researcher-list li:hover { border-left-color: var(--gold); }
+.researcher-name { display: block; font-weight: 600; color: var(--black); }
+.researcher-name a { color: var(--black); text-decoration-color: var(--gold); }
+.researcher-name a:hover { color: var(--aged); }
+.researcher-role {
+  display: block; font-size: .8rem; color: var(--aged);
+  font-weight: 600; margin-top: .1em;
+}
+.researcher-note {
+  display: block; font-size: .9rem; color: var(--ink-soft); margin-top: .25em;
+}
+
 .person-role {
   display: inline-block; background: var(--gold); color: var(--black);
   border-radius: 999px; padding: .28em .85em;
@@ -456,6 +489,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 
 @media (max-width: 900px) {
   .people-grid { grid-template-columns: 1fr; }
+  .researcher-columns { grid-template-columns: 1fr; }
   .grid-media { grid-template-columns: 1fr; }
   .grid-2 { grid-template-columns: 1fr; }
 }
@@ -513,3 +547,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
   .site-header, .site-footer, .skip-link { display: none; }
   body { font-size: 12pt; }
 }
+
+.alum-name a { color: var(--black); text-decoration-color: var(--gold); }
+.alum-name a:hover { color: var(--aged); }

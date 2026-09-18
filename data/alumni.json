@@ -1,32 +1,141 @@
 [
-  { "year": "2026", "graduates": [
-    { "name": "Victoria Scotney Wang" },
-    { "name": "Meaghan Tracy" },
-    { "name": "Fanyi Zhang", "position": "Research Scientist, DDI" } ] },
-  { "year": "2025", "graduates": [
-    { "name": "Daphne Hou", "position": "Assistant Professor, University of South Florida" },
-    { "name": "Bradley Pitcher", "position": "Research Scientist, DDI" },
-    { "name": "Rick Yang", "position": "Assistant Professor, Baruch College, City University of New York (CUNY)" } ] },
-  { "year": "2024", "graduates": [
-    { "name": "Jerod White", "position": "Research Scientist, Hogan Assessments" } ] },
-  { "year": "2023", "graduates": [
-    { "name": "Sharon Li", "position": "Research Scientist, HumRRO" },
-    { "name": "Stuti Thapa", "position": "Assistant Professor, University of Tulsa" } ] },
-  { "year": "2021", "graduates": [
-    { "name": "Louis Hickman", "position": "Assistant Professor, Virginia Tech" },
-    { "name": "Nicole (Schulz) Strah", "position": "Assistant Professor, University of North Carolina at Charlotte" } ] },
-  { "year": "2020", "graduates": [
-    { "name": "Andrew Jebb", "position": "Research Scientist, The Institute for the Study of Human Flourishing" } ] },
-  { "year": "2019", "graduates": [
-    { "name": "Melissa Keith", "position": "Associate Professor, Bowling Green State University" },
-    { "name": "Cassondra Batz-Barbarich", "position": "Assistant Professor, Lake Forest College" },
-    { "name": "Vincent Ng", "position": "Assistant Professor, University of Houston" },
-    { "name": "Rachel Saef", "position": "Assistant Professor, Northern Illinois University" } ] },
-  { "year": "2018", "graduates": [
-    { "name": "Scott Parrigon", "position": "User Experience Lead, Google" } ] },
-  { "year": "2017", "graduates": [
-    { "name": "Drew Mallory", "position": "Professor of Management, Sasin School of Management, Thailand" } ] },
-  { "year": "2016", "graduates": [
-    { "name": "Brett Guidry", "position": "Director of Talent Management, Novartis" },
-    { "name": "Caitlin Porter", "position": "Associate Professor, University of Missouri, Kansas City" } ] }
+  {
+    "year": "2026",
+    "graduates": [
+      {
+        "name": "Victoria Scotney Wang"
+      },
+      {
+        "name": "Meaghan Tracy"
+      },
+      {
+        "name": "Fanyi Zhang",
+        "position": "Research Scientist, DDI"
+      }
+    ]
+  },
+  {
+    "year": "2025",
+    "graduates": [
+      {
+        "name": "Daphne Hou",
+        "position": "Assistant Professor, University of South Florida",
+        "url": "https://www.usf.edu/arts-sciences/departments/psychology/people/faculty/daphne-hou.aspx"
+      },
+      {
+        "name": "Bradley Pitcher",
+        "position": "Research Scientist, DDI"
+      },
+      {
+        "name": "Rick Yang",
+        "position": "Assistant Professor, Baruch College, City University of New York (CUNY)",
+        "url": "https://www.iopsych-baruch.com/zhixu-rick-yang"
+      }
+    ]
+  },
+  {
+    "year": "2024",
+    "graduates": [
+      {
+        "name": "Jerod White",
+        "position": "Research Scientist, Hogan Assessments"
+      }
+    ]
+  },
+  {
+    "year": "2023",
+    "graduates": [
+      {
+        "name": "Sharon Li",
+        "position": "Research Scientist, HumRRO"
+      },
+      {
+        "name": "Stuti Thapa",
+        "position": "Assistant Professor, University of Tulsa",
+        "url": "https://utulsa.edu/people/stuti-thapa/"
+      }
+    ]
+  },
+  {
+    "year": "2021",
+    "graduates": [
+      {
+        "name": "Louis Hickman",
+        "position": "Assistant Professor, Virginia Tech",
+        "url": "https://cfwpp.icat.vt.edu/people/louis-hickman.html"
+      },
+      {
+        "name": "Nicole (Schulz) Strah",
+        "position": "Assistant Professor, University of North Carolina at Charlotte",
+        "url": "https://belkcollege.charlotte.edu/directory/nicole-strah/"
+      }
+    ]
+  },
+  {
+    "year": "2020",
+    "graduates": [
+      {
+        "name": "Andrew Jebb",
+        "position": "Research Scientist, The Institute for the Study of Human Flourishing"
+      }
+    ]
+  },
+  {
+    "year": "2019",
+    "graduates": [
+      {
+        "name": "Melissa Keith",
+        "position": "Associate Professor, Bowling Green State University",
+        "url": "https://www.bgsu.edu/arts-and-sciences/psychology/people/melissa-keith.html"
+      },
+      {
+        "name": "Cassondra Batz-Barbarich",
+        "position": "Associate Professor of Business, Lake Forest College",
+        "url": "https://www.lakeforest.edu/academics/faculty/cbatz-barbarich"
+      },
+      {
+        "name": "Vincent Ng",
+        "position": "Assistant Professor, Kozminski University",
+        "url": "https://dn.kozminski.edu.pl/info/author/ALKda4bc2690b7e4f6996978d8ca034eaa8/"
+      },
+      {
+        "name": "Rachel Saef",
+        "position": "Assistant Professor, Northern Illinois University",
+        "url": "https://www.niu.edu/clas/psychology/about/directory/saef.shtml"
+      }
+    ]
+  },
+  {
+    "year": "2018",
+    "graduates": [
+      {
+        "name": "Scott Parrigon",
+        "position": "User Experience Lead, Google"
+      }
+    ]
+  },
+  {
+    "year": "2017",
+    "graduates": [
+      {
+        "name": "Drew Mallory",
+        "position": "Associate Professor of Management, Sasin School of Management, Thailand",
+        "url": "https://www.linkedin.com/in/drewbmallory/"
+      }
+    ]
+  },
+  {
+    "year": "2016",
+    "graduates": [
+      {
+        "name": "Brett Guidry",
+        "position": "Director of Talent Management, Novartis"
+      },
+      {
+        "name": "Caitlin Porter",
+        "position": "Associate Professor, University of Memphis",
+        "url": "https://www.linkedin.com/in/caitlinmporter/"
+      }
+    ]
+  }
 ]

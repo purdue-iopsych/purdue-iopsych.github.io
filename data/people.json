@@ -106,5 +106,99 @@
       "interests": "Well-being, motivation, gender differences, meaning of work, sustainable job performance",
       "role": "PAGSIP President"
     }
+  ],
+  "postdocs": [
+    {
+      "name": "Amal Chekili",
+      "status": "current",
+      "lab": "WAM Lab",
+      "note": "Ph.D. in Industrial-Organizational Psychology, Virginia Tech. Studies the benefits, challenges, and opportunities of AI in organizational settings."
+    },
+    {
+      "name": "Jinsoo Choi",
+      "status": "current",
+      "lab": "WAM Lab",
+      "note": "Ph.D. in Industrial-Organizational Psychology, University of Illinois Urbana-Champaign. Works on personnel selection, well-being, and research methods."
+    },
+    {
+      "name": "Lauren Moran",
+      "status": "current",
+      "lab": "WAM Lab",
+      "note": "Ph.D. in Industrial-Organizational Psychology, Georgia Institute of Technology. Studies worker health and well-being, and how AI affects worker experiences."
+    },
+    {
+      "name": "Hoda Vaziri",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now Associate Professor of Management, University of North Texas.",
+      "url": "https://www.hodavaziri.com/"
+    },
+    {
+      "name": "Christopher W. Wiese",
+      "status": "former",
+      "lab": "WAM Lab (joint with the University of Pennsylvania)",
+      "note": "Now Associate Professor of Industrial-Organizational Psychology, Georgia Institute of Technology.",
+      "url": "https://psychology.gatech.edu/people/christopher-w-wiese"
+    }
+  ],
+  "postbacs": [
+    {
+      "name": "Nicole Castellanos",
+      "status": "current",
+      "lab": "INDiGO Lab",
+      "role": "Research Coordinator",
+      "note": "B.A. in Psychology, Rice University, 2026. Research interests in personality and teams.",
+      "url": "https://sites.google.com/view/aharriswatson/about"
+    },
+    {
+      "name": "Rediet Shiferahu",
+      "status": "current",
+      "lab": "WAM Lab",
+      "role": "Post-Bac Researcher",
+      "note": "B.A. in Psychology, Colgate University. Studies how relationships, sleep, and storytelling shape well-being."
+    },
+    {
+      "name": "Ziqi Yao",
+      "status": "former",
+      "role": "Research Lab Manager",
+      "note": "B.S. in Experimental Psychology, Purdue. Now an Industrial-Organizational Psychology Ph.D. student at George Mason University.",
+      "url": "https://psychology.gmu.edu/people/zyao3"
+    },
+    {
+      "name": "Annika (Ziqi) Wei",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now a Research Associate at Harvard Business School."
+    },
+    {
+      "name": "Cavan Bonner",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now a Personality Psychology Ph.D. student at the University of Illinois Urbana-Champaign (NSF GRFP awardee)."
+    },
+    {
+      "name": "Audrey Palmeri",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now an Industrial-Organizational Psychology Ph.D. student at Pennsylvania State University."
+    },
+    {
+      "name": "Molly Cooper",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now a Counseling Psychology Ph.D. student at Fordham University."
+    },
+    {
+      "name": "Gloria Liou",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Now an Industrial-Organizational Psychology Ph.D. student in this program (NSF GRFP awardee)."
+    },
+    {
+      "name": "Fanyi Zhang",
+      "status": "former",
+      "lab": "WAM Lab",
+      "note": "Earned her Industrial-Organizational Psychology Ph.D. in this program in 2026; now a Research Scientist at DDI."
+    }
   ]
 }

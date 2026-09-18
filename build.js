@@ -186,7 +186,7 @@ const footer = (slug) => `${feedbackStrip(slug)}
       <h2>Contact</h2>
       <a href="mailto:PAGSIP@purdue.edu">PAGSIP@purdue.edu</a>
       <a href="https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/">Apply to the program</a>
-      <a href="https://giving.purdue.edu/IndustrialOrgPsy80">Give to the program</a>
+      <a href="https://giving.purdue.edu/">Give to the program</a>
     </div>
   </div>
   <div class="wrap footer-base">
@@ -322,6 +322,30 @@ function renderCourtesy() {
   return `<ul class="chip-list">${data("people").courtesy.map((c) => `<li>${esc(c.name)}</li>`).join("")}</ul>`;
 }
 
+/* Post-docs and post-bac researchers, split into current and former. These are
+   people attached to the program's labs rather than enrolled in the Ph.D., so
+   they get a lighter entry than the person cards above. */
+function renderResearchers(key, currentLabel, formerLabel) {
+  const all = data("people")[key] || [];
+  const group = (status) => all.filter((r) => r.status === status);
+  const entry = (r) => `
+        <li>
+          <span class="researcher-name">${r.url ? `<a href="${esc(r.url)}">${esc(r.name)}</a>` : esc(r.name)}</span>
+          ${r.role || r.lab ? `<span class="researcher-role">${[r.role, r.lab].filter(Boolean).map(esc).join(" &middot; ")}</span>` : ""}
+          ${r.note ? `<span class="researcher-note">${esc(r.note)}</span>` : ""}
+        </li>`;
+  const block = (status, label) => {
+    const rows = group(status);
+    if (!rows.length) return "";
+    return `
+      <div class="researcher-group">
+        <h3>${label}</h3>
+        <ul class="researcher-list">${rows.map(entry).join("")}</ul>
+      </div>`;
+  };
+  return block("current", currentLabel) + block("former", formerLabel);
+}
+
 /* The PAGSIP membership is the current graduate cohort, so it is rendered from
    the same list as /people rather than kept as a second copy that can drift. */
 function renderPagsipMembers() {
@@ -371,7 +395,7 @@ function renderAlumni() {
     <section class="alumni-year">
       <h3 class="year-label">${esc(y.year)}</h3>
       <ul class="alumni-list">
-        ${y.graduates.map((g) => `<li><span class="alum-name">${esc(g.name)}</span>${g.position ? `<span class="alum-pos">${esc(g.position)}</span>` : ""}</li>`).join("\n        ")}
+        ${y.graduates.map((g) => `<li><span class="alum-name">${g.url ? `<a href="${esc(g.url)}">${esc(g.name)}</a>` : esc(g.name)}</span>${g.position ? `<span class="alum-pos">${esc(g.position)}</span>` : ""}</li>`).join("\n        ")}
       </ul>
     </section>`).join("\n");
 }
@@ -434,6 +458,8 @@ const RENDERERS = {
   ADMITTING_SUMMARY: renderAdmittingSummary,
   COURTESY: renderCourtesy,
   PAGSIP_MEMBERS: renderPagsipMembers,
+  POSTDOCS: () => renderResearchers("postdocs", "Currently in the program", "Former post-doctoral researchers"),
+  POSTBACS: () => renderResearchers("postbacs", "Currently in the program", "Former post-baccalaureate researchers"),
   STUDENTS: renderStudents,
   NEWS_ITEMS: renderNews,
   ALUMNI: renderAlumni,
