@@ -1,0 +1,45 @@
+[
+  {
+    "id": "in-memoriam-howard-weiss",
+    "kind": "In Memoriam",
+    "title": "In Memoriam: Howard M. Weiss",
+    "byline": "Written by Carolyn Jagacinski",
+    "photo": "images/news-howard-weiss.jpg",
+    "photoAlt": "Photo of Howard M. Weiss",
+    "body": [
+      "The Purdue I-O family is deeply saddened by the passing of Howard M. Weiss, Professor Emeritus. Howard joined the Purdue Psychology Department in 1975 after completing his PhD in Organizational Psychology at New York University. His long productive career at Purdue spanned from 1975 until 2012, when he retired from Purdue to become Department Head at Georgia Tech. He had also served as Head of the Purdue Psychology Department during his tenure here. He had recently retired from Georgia Tech in 2022 and held emeritus status there. Howard's research had a major impact on the field of Industrial-Organizational (I-O) Psychology. He was a fellow of the Society for Industrial and Organizational Psychology, the Association for Psychological Sciences, and the American Psychological Association.",
+      "Many PAGSIP members will remember Howard's research methods course, often co-taught with Elliot Smith from the Social area. Howard was known for his ability to analyze big-picture issues in I-O Psychology. He is most well-known for his development of Affective Events Theory with Russell Cropanzano. This work fostered a significant paradigm shift in I-O research, switching the focus to the experiences of employees, particularly their affective experiences at work, and how these experiences influence their behavior in the workplace. This work led to longitudinal studies which followed the affective experiences of employees across time. Together with Deborah Rupp, he further inspired scholarly conversations about person-centric work psychology, calling for research focused on the subjective experiences of workers as unique individuals. Many PAGSIP members benefitted from training on these research projects and continue this line of work.",
+      "Howard will be remembered for his outstanding theoretical contributions to the field of I-O Psychology. He was also a compassionate man willing to do whatever he could to help colleagues in need. He will be sorely missed."
+    ]
+  },
+  {
+    "id": "mccormick-2025",
+    "kind": "McCormick Lecture",
+    "year": "2025",
+    "title": "2025 McCormick Lecture",
+    "speaker": "Dr. Alicia Grandey",
+    "intro": "We invited Dr. Alicia Grandey as our 2025 esteemed speaker for the Ernest J. McCormick Memorial Lecture.",
+    "talkTitle": "Managing an Emotionally Charged Workplace",
+    "abstract": "Leaders today face unprecedented changes and uncertainty alongside expectations to support worker wellbeing in our diverse and divided society. Yet, leader development and training often ignore the inherent emotional labor of the job and how leaders can support their people - and themselves - in these new conditions. Drawing on her recent book on this topic, emotional labor expert Dr. Grandey will discuss evidence-based strategies for leaders to thrive in the complex emotional landscape at work, and to foster healthy and productive work environments in the 21st century."
+  },
+  {
+    "id": "mccormick-2023",
+    "kind": "McCormick Lecture",
+    "year": "2023",
+    "title": "2023 McCormick Lecture",
+    "speaker": "Dr. Fred Oswald",
+    "intro": "We invited Dr. Fred Oswald as our 2023 esteemed speaker for the Ernest J. McCormick Memorial Lecture.",
+    "talkTitle": "The Future and Fairness of Employment Testing: AI, Machine Learning, and Beyond",
+    "abstract": "Employment tests and hiring systems that incorporate AI technologies and machine-learning algorithms are viewed by—and sold to—some organizations as highly advantageous. Yet are they, and are they advantageous to the millions of job applicants subjected to these tests? Asynchronous video interviews, game-based assessments, and the screening of resumes using natural-language processing are among the many types of assessments already developed, with future technologically advanced assessments sure to follow. In recent years, the promises of these AI/ML-based assessments are being tempered by a range of scientific, legal, and ethical issues, such as job-relevance, unbiasedness, and applicant privacy. This talk will detail these types of concerns further, and then it will raise more general questions about the purpose of employment testing. In short, the value of professional standards for employment test development, and the job analysis wisdom of Dr. Ernest McCormick, remains important in the AI era — perhaps more important than ever before."
+  },
+  {
+    "id": "mccormick-2022",
+    "kind": "McCormick Lecture",
+    "year": "2022",
+    "title": "2022 McCormick Lecture",
+    "speaker": "Dr. Lillian T. Eby",
+    "intro": "We invited Dr. Lillian T. Eby as our 2022 esteemed speaker for the Ernest J. McCormick Memorial Lecture.",
+    "talkTitle": "Mindfulness as a Strategy for Improving Relationships and Reducing Stress",
+    "abstract": "Research on the application of mindfulness to organizational settings has exploded in recent years. Most of this research takes an intrapersonal perspective, examining how mindfulness can improve individual outcomes. However, other disciplines document the potential interpersonal benefits of mindfulness. A recent conceptual model of the relational aspects of mindfulness will be presented, along with a program of research aimed at examining the relational benefits of mindfulness. Intervention research on mindfulness training as a strategy for reducing workaholism will also be discussed."
+  }
+]

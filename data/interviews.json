@@ -1,0 +1,46 @@
+[
+  {
+    "id": "melissa-keith",
+    "name": "Dr. Melissa Keith",
+    "cohort": "Class of 2019",
+    "photo": "images/alumni-keith.jpg",
+    "photoAlt": "Headshot of Dr. Melissa Keith",
+    "qa": [
+      { "q": "What is your job title and a high-level description of your major job duties?",
+        "a": ["I am an Assistant Professor of I/O Psychology at Bowling Green State University. I do research, mentor graduate students, and teach graduate and undergraduate classes. My primary research focus is on creativity, motivation, online samples in psychological research, and the gig economy, but I also like to dabble in topics broadly related to human flourishing and well-being."] },
+      { "q": "Do you consider yourself a scientist, practitioner, or a bit of both?",
+        "a": ["I consider myself primarily a scientist, but I do a little of both. BGSU has an in-house consulting firm (Institute for Psychological Research and Application) that applies our science to organizations. Being involved with these projects helps me stay more balanced."] },
+      { "q": "What skills are crucial for someone to develop if they want to be successful in a job like yours?",
+        "a": ["Many of the skills will be similar to a job in the applied world – problem solving, communication, networking, etc. The distinction between academia and applied jobs is perhaps the application of some of these skills. For example, communication in my job is highly dependent on my ability to communicate ideas in writing but also verbally when teaching classes or giving presentations. There are many good books on effective academic writing that I would recommend such as Paul Silvia's “How to Write a Lot”.",
+              "What really sets an academic job apart from other jobs, I believe, is the high levels of autonomy and the sheer number of projects you will need to juggle. Handling the autonomy well to ensure that you are a good project manager is perhaps one of the more important skills you can develop in academia. Autonomy can be a double-edged sword. On one hand, the ability to work on the projects you want, mostly when and where you want is unparalleled in any other job. On the other hand, autonomy can result in wasted time if the right things aren't prioritized (e.g., research, writing)."] },
+      { "q": "What advice do you have for someone who is interested in pursuing their graduate degree in I/O?",
+        "list": [
+          "Be proactive. More and more I am looking for graduate students who not only make good grades and do well in classes but who are able to be proactive in their learning. So much of graduate school is teaching seeking out information and problem solving – skills that can be developed as an undergraduate student.",
+          "Get as much experience in I/O Psychology (or a related field) as possible. There are many ways to get experience in I/O Psychology including classes, class projects, doing research with graduate students or faculty, self-study, internships, etc. If your school doesn't have an I/O Psychology program, that's ok! You can still read an I/O Psychology textbook or reach out to graduate students in other programs to see if they would be willing to talk with you about I/O Psychology.",
+          "Keep your mind open. Too often I hear students say things like, “I want to get a PhD in X, but I don't like research.” How do they know? Be open to new experiences and new topics.",
+          "Do your research on graduate programs and find a program that has a good culture, supportive faculty, and produces high-quality scholars."
+        ] }
+    ]
+  },
+  {
+    "id": "andrew-jebb",
+    "name": "Dr. Andrew Jebb",
+    "cohort": "Class of 2020",
+    "qa": [
+      { "q": "What is your job title and a high-level description of your major job duties?",
+        "a": ["I am a social science research consultant. Right now, this involves creating instruments to measure important and complex things like well-being and poverty."] },
+      { "q": "Do you consider yourself a scientist, practitioner, or a bit of both?",
+        "a": ["Mostly a scientist."] },
+      { "q": "How do you utilize your I/O psychology education/training in your job?",
+        "a": ["I use my I/O training all the time. A lot of work today involves working with numbers, and I/O is one of the most quantitative areas of psychology. I also use my training as an I/O psychologist to understand people and to write and communicate effectively."] },
+      { "q": "What skills are crucial for someone to develop if they want to be successful in a job like yours?",
+        "a": ["They would need to develop an attitude of humility and a commitment to integrity. Without these, technical skills do not matter. Aside from that, an ability to think critically is the most important; to understand and evaluate the soundness of ideas is as crucial now as it was 2,000 years ago."] },
+      { "q": "What interests do you have that make your specialization of I/O a good fit for you?",
+        "a": ["I am a very curious person, with interests in both abstract topics (e.g., philosophy, psychology) and more technical areas (mathematics). I feel like these two are a good fit for psychology in general."] },
+      { "q": "Are there any major trends or developments that you see happening in your area of I/O within the next 5 or 10 years that current or future students should know about?",
+        "a": ["Research methods will continue to be integrated within new technology. Data over time will be easier to collect, and we will wrestle with how best to use this information effectively and ethically."] },
+      { "q": "What advice do you have for someone who is interested in pursuing their graduate degree in I/O?",
+        "a": ["Do your research into what the field is about. Do you like thinking and talking about work topics, like coworker interactions, emotions at work, and how to best select employees? Do you enjoy scientific precision and abstract thinking? If so, I/O might be a good fit."] }
+    ]
+  }
+]
