@@ -47,8 +47,8 @@ const EXPECT = {
     "John and Joyce Schaeuble Award", "Joseph Tiffin Award", "Hendrix",
     "Andrews/Ross Fellowships", "Purdue Research Foundation", "Ernest J. McCormick",
     "Purdue Global", "$89k", "$125k", "10,000 members"],
-  "external links": ["siop.org", "apa.org", "onetonline.org", "usnews.com",
-    "socialpsychology.org", "homeofpurdue.com",
+  "external links": ["siop.org", "apa.org", "onetonline.org",
+    "socialpsychology.org", "homeofpurdue.com", "purdue.edu/newsroom",
     "hhs.purdue.edu", "bgsu.edu", "en.wikipedia.org"],
   "documents": ["/docs/pagsip-history.pdf", "/docs/in-memoriam-dick-jeanneret.pdf",
     "/docs/in-memoriam-frank-schmidt.pdf", "/docs/guide-applying-to-graduate-school.pdf"],
@@ -62,6 +62,10 @@ const EXPECT = {
 //     that showed visitors a login page (two Hendrix awards, one honorary member).
 //   faculty-advice-grad-school-2020.pdf -- the advice from faculty still in the
 //     program now lives on /admissions itself.
+//   usnews.com -- the ranking article the home page cited is gone from U.S.
+//     News. The ranking claim now cites the February 2024 Purdue Today piece,
+//     which states the position and is Purdue's own newsroom, hence the
+//     purdue.edu/newsroom expectation above.
 
 let missing = 0;
 for (const [group, items] of Object.entries(EXPECT)) {
