@@ -39,6 +39,21 @@ routinely 1 MB for a picture rendered at 130 pixels.
 Lecture entries use `year`/`speaker`/`talkTitle`/`abstract`; long-form posts use
 `body` (an array of paragraphs) and optional `photo`/`byline`.
 
+The `kind` field decides where an entry lands: `"McCormick Lecture"` sends it to
+`/news/mccormick-lecture` (in full) and to the index card on `/news` (one line);
+anything else renders on `/news`. So a new lecture needs no wiring beyond the
+JSON entry, and the abstract is never printed on two pages at once.
+
+**Change a course, a milestone, or an admissions requirement** — `/curriculum`
+and `/admissions/faq` are written from the Department of Psychological Sciences
+[graduate handbook](https://hhs.purdue.edu/wp-content/uploads/2023/04/PSY-Graduate-Handbook.pdf),
+the Graduate School's [requirements page](https://www.purdue.edu/academics/ogsps/admissions/gradrequirements/westlafayette/industrial-organizational-psychology/),
+and the department's [graduate FAQs](https://hhs.purdue.edu/psy/graduate-faqs/).
+Both pages say so and link out. **Re-check them against those sources each
+admissions cycle** — the deadline, the fees, the GRE policy and the TOEFL
+thresholds are all set elsewhere and change without anyone telling us. The
+handbook edition is named on `/curriculum`; bump it when a new one is posted.
+
 **Add a newsletter** — drop the PDF in `newsletters/` as
 `pagsip-newsletter-<year>.pdf`, then prepend an entry to `data/newsletters.json`
 with `key`, `year`, `label`, `file`, and `sizeKB`. The newest entry is rendered as
@@ -152,9 +167,13 @@ Most of this is automatic — it is listed here so nobody adds it twice by hand.
   `BreadcrumbList` on the two pages nested under PAGSIP; `Person` entries for
   every faculty member and student on `/people`; and a `FAQPage` on
   `/i-o-psychology-resources`.
-- **The FAQ markup is read out of the page itself** — each `<h2 id>` becomes a
-  question and the prose below it the answer. Add or reword an H2 there and the
-  markup follows. It cannot drift out of sync, so never hand-maintain a copy.
+- **The FAQ markup is read out of the page itself** — on any page carrying
+  `faq: true` in `PAGES` (currently `/i-o-psychology-resources` and
+  `/admissions/faq`), each `<h2 id>` becomes a question and the prose below it
+  the answer. Add or reword an H2 there and the markup follows. It cannot drift
+  out of sync, so never hand-maintain a copy. Write the page for a reader; if a
+  section is not really a question, it simply makes a poor FAQ entry — that is
+  the signal to reword the heading, not to edit the markup.
 - **`sitemap.xml` carries `lastmod`**, taken from the git commit date of the
   fragment and the JSON a page is built from. Outside a git checkout the dates
   are simply omitted, because a file mtime would just say "today" for
@@ -173,6 +192,22 @@ files directly with `file://` will break the root-relative CSS and image paths.
 
 ## Open TODOs
 
+- **The domain still points at Google Sites.** `www.purdueiopsych.com` resolves
+  to `ghs.googlehosted.com`, so the old site is what the public and the search
+  engines see. Meanwhile every page here declares a canonical URL on that
+  domain, which tells a crawler that finds `purdue-iopsych.github.io` to go read
+  the *old* site instead. Until the DNS cutover, none of this site's SEO work
+  can take effect. There is also no `CNAME` file in the repo yet.
+  **This blocks everything else on this list.**
+- **The GRE.** `/admissions` and `/admissions/faq` both state that the GRE
+  General Test is required, which is what the Graduate School and the department
+  FAQ said when the pages were written. Confirm it each cycle — several I-O
+  programs have gone test-optional, and this is the kind of thing that quietly
+  costs applicants if it goes stale.
+- **A contact page.** There is no `/contact`, which is a common direct query and
+  a common link target. It needs the department's street address and a
+  who-to-email-about-what split (program coordinator / faculty / PAGSIP), none
+  of which is sourced on this site yet.
 - **Information sessions.** The old homepage advertised a session on Oct 20, 2025.
   It is commented out in `src/index.html` rather than published with a stale date.
   Fill in new details and uncomment when the next session is scheduled.

@@ -93,6 +93,11 @@ const PAGES = {
     title: "About the Ph.D. Program | Purdue I-O Psychology",
     desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, built on a science-practice model, with apprenticeship-based training alongside a faculty advisor.",
   },
+  curriculum: {
+    url: "/curriculum",
+    title: "Curriculum & Degree Requirements | Purdue I-O Psychology",
+    desc: "The courses, committees, and milestones of Purdue's I-O psychology Ph.D.: the statistics sequence, the four I-O core courses, the master's thesis, the two-part preliminary exam, and the dissertation.",
+  },
   people: {
     url: "/people",
     title: "Faculty & Graduate Students | Purdue I-O Psychology",
@@ -103,15 +108,27 @@ const PAGES = {
     title: "Admissions & Funding | Purdue I-O Psychology",
     desc: "Admissions criteria, guaranteed five-year funding, and application guidance for the Purdue I-O psychology Ph.D. program.",
   },
+  "admissions-faq": {
+    url: "/admissions/faq",
+    title: "Admissions FAQ | Purdue I-O Psychology",
+    desc: "Deadlines, the GRE, application materials, fees and waivers, funding, and English proficiency requirements for the Purdue I-O psychology Ph.D. — answered in one place.",
+    faq: true,
+  },
   news: {
     url: "/news",
-    title: "News & the McCormick Lecture | Purdue I-O Psychology",
-    desc: "News from the Purdue I-O psychology program, including the Ernest J. McCormick Memorial Lecture.",
+    title: "News | Purdue I-O Psychology",
+    desc: "News from the Purdue I-O psychology program.",
+  },
+  "mccormick-lecture": {
+    url: "/news/mccormick-lecture",
+    title: "Ernest J. McCormick Memorial Lecture | Purdue I-O Psychology",
+    desc: "The Ernest J. McCormick Memorial Lecture brings a distinguished I-O psychologist to Purdue. Past speakers, their talks, and abstracts.",
   },
   "i-o-psychology-resources": {
     url: "/i-o-psychology-resources",
     title: "What Is I-O Psychology? | Purdue I-O Psychology",
     desc: "What industrial-organizational psychology is, what I-O psychologists do, how the field differs from OB and HR, and what the job prospects look like.",
+    faq: true,
   },
   pagsip: {
     url: "/purdue-association-of-graduate-students-in-industrial-psychology-pagsip",
@@ -229,8 +246,10 @@ const footer = (slug) => `${feedbackStrip(slug)}
     <nav class="footer-col" aria-label="Program links">
       <h2>Program</h2>
       <a href="/our-program">Our Program</a>
+      <a href="/curriculum">Curriculum</a>
       <a href="/people">People</a>
       <a href="/admissions">Admissions</a>
+      <a href="/admissions/faq">Admissions FAQ</a>
       <a href="/news">News</a>
     </nav>
     <nav class="footer-col" aria-label="Community links">
@@ -295,6 +314,8 @@ const topics = (s) => String(s || "").split(/\s*;\s*/).map((t) => t.trim()).filt
 const BREADCRUMBS = {
   alumni: [["Home", "/"], ["PAGSIP", PAGES.pagsip.url], ["Alumni", PAGES.alumni.url]],
   newsletters: [["Home", "/"], ["PAGSIP", PAGES.pagsip.url], ["Newsletters", PAGES.newsletters.url]],
+  "admissions-faq": [["Home", "/"], ["Admissions", "/admissions"], ["FAQ", "/admissions/faq"]],
+  "mccormick-lecture": [["Home", "/"], ["News", "/news"], ["McCormick Lecture", "/news/mccormick-lecture"]],
 };
 
 /* The program itself, described the way Google's degree-program markup expects.
@@ -323,12 +344,18 @@ function programNode() {
    answers, so it is published as such. Each <h2 id> is the question and the
    prose up to the next <h2> is the answer, read straight from the built page
    so the two can never drift apart. */
-function faqNode(main) {
-  const parts = main.split(/<h2 id="/).slice(1);
-  const items = parts.map((chunk) => {
-    const q = (chunk.match(/^[^"]*">([\s\S]*?)<\/h2>/) || [])[1];
-    if (!q) return null;
-    const body = chunk.slice(chunk.indexOf("</h2>") + 5);
+function faqNode(main, slug) {
+  /* Any <h2> carrying an id, whatever else is on the tag — a heading that
+     picks up a class must not silently drop out of the markup. */
+  const open = /<h2\b(?=[^>]*\bid=")[^>]*>/gi;
+  const heads = [...main.matchAll(open)];
+  const items = heads.map((h, i) => {
+    const after = main.slice(h.index + h[0].length);
+    const end = after.indexOf("</h2>");
+    if (end < 0) return null;
+    const q = after.slice(0, end);
+    const nextAt = i + 1 < heads.length ? heads[i + 1].index : main.length;
+    const body = main.slice(h.index + h[0].length + end + 5, nextAt);
     const text = body
       .replace(/<[^>]+>/g, " ")
       .replace(/&mdash;/g, "—").replace(/&ndash;/g, "–")
@@ -343,7 +370,7 @@ function faqNode(main) {
     };
   }).filter(Boolean);
   if (!items.length) return null;
-  return { "@type": "FAQPage", "@id": canonical("i-o-psychology-resources") + "#faq", mainEntity: items };
+  return { "@type": "FAQPage", "@id": canonical(slug) + "#faq", mainEntity: items };
 }
 
 function structuredData(slug, main) {
@@ -372,7 +399,7 @@ function structuredData(slug, main) {
     graph.push(programNode());
   }
 
-  if (slug === "admissions") graph.push(programNode());
+  if (slug === "admissions" || slug === "curriculum") graph.push(programNode());
 
   if (BREADCRUMBS[slug]) {
     graph.push({
@@ -384,8 +411,8 @@ function structuredData(slug, main) {
     });
   }
 
-  if (slug === "i-o-psychology-resources") {
-    const faq = faqNode(main);
+  if (PAGES[slug] && PAGES[slug].faq) {
+    const faq = faqNode(main, slug);
     if (faq) graph.push(faq);
   }
 
@@ -551,8 +578,14 @@ function renderStudents() {
     </article>`).join("\n");
 }
 
+/* The McCormick lectures have their own page, so /news carries everything else
+   and links across rather than printing the same abstracts twice. `kind` is
+   what separates them, so a new lecture entry lands on the right page with no
+   further wiring. */
+const isLecture = (n) => n.kind === "McCormick Lecture";
+
 function renderNews() {
-  return data("news").map((n) => {
+  return data("news").filter((n) => !isLecture(n)).map((n) => {
     if (n.body) {
       return `
     <article class="news-item" id="${n.id}">
@@ -604,6 +637,28 @@ function renderInterviews() {
     </article>`).join("\n");
 }
 
+/* Full lecture entries, for /news/mccormick-lecture. */
+function renderLectures() {
+  const talks = data("news").filter(isLecture);
+  if (!talks.length) return "<p>Lecture details are being compiled.</p>";
+  return talks.map((n) => `
+    <article class="news-item" id="${n.id}">
+      <p class="kicker">${esc(n.year)}</p>
+      <h2>${esc(n.speaker || n.title)}</h2>
+      <p class="talk-title">${esc(n.talkTitle)}</p>
+      <p><span class="label">Abstract</span> ${esc(n.abstract)}</p>
+    </article>`).join("\n");
+}
+
+/* A one-line index of the same talks, for the card on /news. */
+function renderLectureIndex() {
+  const talks = data("news").filter(isLecture);
+  if (!talks.length) return "";
+  return `<ul class="lecture-index">${talks.map((n) => `
+      <li><a href="/news/mccormick-lecture#${n.id}"><span class="lecture-year">${esc(n.year)}</span><span class="lecture-who">${esc(n.speaker || n.title)}</span><span class="lecture-talk">${esc(n.talkTitle)}</span></a></li>`).join("")}
+    </ul>`;
+}
+
 function renderNewsletters() {
   const all = data("newsletters");
   const latest = all[0];
@@ -646,6 +701,8 @@ const RENDERERS = {
   POSTBACS: () => renderResearchers("postbacs", "Current post-baccalaureate researchers", "Former post-baccalaureate researchers"),
   STUDENTS: renderStudents,
   NEWS_ITEMS: renderNews,
+  LECTURES: renderLectures,
+  LECTURE_INDEX: renderLectureIndex,
   ALUMNI: renderAlumni,
   INTERVIEWS: renderInterviews,
   NEWSLETTERS: renderNewsletters,
@@ -716,7 +773,8 @@ for (const [from, to] of Object.entries(REDIRECTS)) {
 const RENDERER_SOURCES = {
   FACULTY: "people", ADMITTING_SUMMARY: "people", COURTESY: "people",
   PAGSIP_MEMBERS: "people", POSTDOCS: "people", POSTBACS: "people", STUDENTS: "people",
-  NEWS_ITEMS: "news", ALUMNI: "alumni", INTERVIEWS: "interviews",
+  NEWS_ITEMS: "news", LECTURES: "news", LECTURE_INDEX: "news",
+  ALUMNI: "alumni", INTERVIEWS: "interviews",
   NEWSLETTERS: "newsletters", HONORARY: "honorary",
 };
 
