@@ -24,14 +24,16 @@ because the next build overwrites them.
 | `build.js` | The generator: page registry, shared shell, render functions. |
 | `css/style.css` | The whole stylesheet. Design tokens are in `:root` at the top. |
 | `images/`, `docs/`, `newsletters/` | Photos, program PDFs, and the PAGSIP newsletter archive. |
-| `scripts/` | One-off tools used for the Google Sites migration. Not part of the build. |
+| `scripts/` | Checks and tools. Not part of the build — run them by hand. |
 | `*/index.html`, `sitemap.xml` | **Generated. Do not edit.** |
 
 ## Common edits
 
 **Update a person, add a student, change research interests** — edit
 `data/people.json`, then rebuild. Add the headshot to `images/` and reference it
-as `images/<file>.jpg` (no leading slash; `build.js` adds it).
+as `images/<file>.jpg` (no leading slash; `build.js` adds it). **Then run the
+image optimizer** (below) — headshots off a phone or a faculty page are
+routinely 1 MB for a picture rendered at 130 pixels.
 
 **Add a news item or McCormick lecture** — prepend an object to `data/news.json`.
 Lecture entries use `year`/`speaker`/`talkTitle`/`abstract`; long-form posts use
@@ -48,6 +50,27 @@ anyone not taking a student. The badge on their card *and* the summary sentence
 on `/people` and `/admissions` are both generated from this one field, so they
 can never disagree. **This goes stale every admissions cycle — check it each
 autumn.**
+
+**Add or replace a photo** — drop it in `images/`, then:
+
+```
+powershell -ExecutionPolicy Bypass -File scripts/optimize-images.ps1
+```
+
+It re-encodes everything under `images/` to a right-sized JPEG, capped at the
+width the layout actually renders (the caps live at the top of the script,
+one per filename pattern). Filenames never change, so no HTML or JSON moves.
+Re-running it is a no-op: a file is only replaced when the new one is smaller.
+Add `-WhatIf` to see what it would do first.
+
+This matters more than it sounds. The Google Sites migration saved ten files
+with a `.jpg` name that were really PNG-encoded photographs — 6 MB on their own
+— and the first pass took `images/` from **18.2 MB to 4.3 MB**.
+
+`build.js` reads each image's real dimensions out of the file and writes
+`width`/`height` onto the `<img>`, so nothing on the page jumps around while
+images load. Never hand-write those attributes unless you want to override
+what the file says.
 
 **Add a page** — add an entry to `PAGES` in `build.js` and create the matching
 `src/<slug>.html`. Add it to `NAV` if it belongs in the top navigation. The file
@@ -115,6 +138,29 @@ prefill mechanism.
   links and `--gold` for rules, bands, and button fills with black text.
 - Asset paths in `data/*.json` are relative (`images/x.jpg`); paths written
   directly in `src/*.html` are root-relative (`/images/x.jpg`).
+
+## What the build does for search engines
+
+Most of this is automatic — it is listed here so nobody adds it twice by hand.
+
+- **Titles, descriptions, canonicals, Open Graph, Twitter cards** come from the
+  `PAGES` entry. Titles lead with what a person would type into Google
+  (*"Admissions & Funding"*, not *"Admissions"*), so keep that shape.
+- **Structured data** (JSON-LD) is assembled in `structuredData()`:
+  the program as an `EducationalOrganization` on every page; an
+  `EducationalOccupationalProgram` on the home and admissions pages;
+  `BreadcrumbList` on the two pages nested under PAGSIP; `Person` entries for
+  every faculty member and student on `/people`; and a `FAQPage` on
+  `/i-o-psychology-resources`.
+- **The FAQ markup is read out of the page itself** — each `<h2 id>` becomes a
+  question and the prose below it the answer. Add or reword an H2 there and the
+  markup follows. It cannot drift out of sync, so never hand-maintain a copy.
+- **`sitemap.xml` carries `lastmod`**, taken from the git commit date of the
+  fragment and the JSON a page is built from. Outside a git checkout the dates
+  are simply omitted, because a file mtime would just say "today" for
+  everything and mean nothing.
+- **`robots.txt` and `llms.txt`** are hand-maintained. `llms.txt` summarises the
+  program for AI assistants; update its key facts when the program's change.
 
 ## Preview locally
 

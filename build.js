@@ -20,6 +20,64 @@ const data = (name) => JSON.parse(read(path.join("data", name + ".json")));
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
   .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+/* ----------------------------------------------------------- image size ---
+ * Every <img> needs width and height so the browser can reserve the right box
+ * before the bytes arrive. Without them the text below an image jumps down as
+ * it loads, which is both unpleasant and a ranking signal (cumulative layout
+ * shift). Rather than hand-maintain the numbers, read them out of the files.
+ *
+ * Just enough of the JPEG and PNG container formats to find the dimensions.
+ * A few of the migrated files are PNGs saved under a .jpg name, so the format
+ * is decided by the magic bytes, never by the extension.
+ */
+const sizeCache = new Map();
+
+function readImageSize(relPath) {
+  if (sizeCache.has(relPath)) return sizeCache.get(relPath);
+  let out = null;
+  const file = path.join(ROOT, relPath);
+  try {
+    const b = fs.readFileSync(file);
+    if (b.length > 24 && b.readUInt32BE(0) === 0x89504e47) {
+      out = { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };        // PNG IHDR
+    } else if (b[0] === 0xff && b[1] === 0xd8) {
+      let i = 2;
+      while (i < b.length - 1) {
+        if (b[i] !== 0xff) { i++; continue; }                        // resync
+        let m = b[i + 1];
+        while (m === 0xff) { i++; m = b[i + 1]; }                    // fill bytes
+        i += 2;
+        if (m === 0xd8 || m === 0x01 || (m >= 0xd0 && m <= 0xd7)) continue;
+        if (m === 0xd9 || m === 0xda || i + 1 >= b.length) break;    // EOI / scan
+        // SOFn carries the dimensions; DHT, JPG and DAC share the range.
+        if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) {
+          out = { w: b.readUInt16BE(i + 5), h: b.readUInt16BE(i + 3) };
+          break;
+        }
+        i += b.readUInt16BE(i);
+      }
+    }
+  } catch { /* missing file: fall through and warn once below */ }
+  sizeCache.set(relPath, out);
+  return out;
+}
+
+/* Fill in width/height on any <img> that has not declared them. Anything the
+   fragment states by hand is left alone, so a deliberate override still wins. */
+function addImageDimensions(html, where) {
+  return html.replace(/<img\b[^>]*>/gi, (tag) => {
+    if (/\bwidth=/i.test(tag) && /\bheight=/i.test(tag)) return tag;
+    const src = (tag.match(/\bsrc="([^"]+)"/i) || [])[1];
+    if (!src || /^(https?:)?\/\//i.test(src) || src.startsWith("data:")) return tag;
+    const dim = readImageSize(src.replace(/^\//, ""));
+    if (!dim) {
+      console.warn(`  ! ${where}: could not size ${src}`);
+      return tag;
+    }
+    return tag.replace(/^<img\b/i, `<img width="${dim.w}" height="${dim.h}"`);
+  });
+}
+
 /* ---------------------------------------------------------------- pages ---
  * `url` is the live path; the file is written to <url>/index.html so that URLs
  * keep the shape the Google Sites version used (no .html suffix).
@@ -27,27 +85,27 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
 const PAGES = {
   index: {
     url: "/",
-    title: "Purdue University Industrial-Organizational Psychology",
+    title: "Industrial-Organizational Psychology Ph.D. | Purdue University",
     desc: "Purdue's I-O psychology Ph.D. program is among the oldest in the world, conferring its first degree in 1939, and has graduated more PhDs and SIOP Fellows than any other I-O program.",
   },
   "our-program": {
     url: "/our-program",
-    title: "Our Program | Purdue I-O Psychology",
+    title: "About the Ph.D. Program | Purdue I-O Psychology",
     desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, built on a science-practice model, with apprenticeship-based training alongside a faculty advisor.",
   },
   people: {
     url: "/people",
-    title: "People | Purdue I-O Psychology",
-    desc: "Faculty and graduate students in the industrial-organizational psychology program at Purdue University.",
+    title: "Faculty & Graduate Students | Purdue I-O Psychology",
+    desc: "The faculty and graduate students of Purdue's I-O psychology Ph.D. program, their research interests, and who is admitting students this cycle.",
   },
   admissions: {
     url: "/admissions",
-    title: "Admissions | Purdue I-O Psychology",
+    title: "Admissions & Funding | Purdue I-O Psychology",
     desc: "Admissions criteria, guaranteed five-year funding, and application guidance for the Purdue I-O psychology Ph.D. program.",
   },
   news: {
     url: "/news",
-    title: "News | Purdue I-O Psychology",
+    title: "News & the McCormick Lecture | Purdue I-O Psychology",
     desc: "News from the Purdue I-O psychology program, including the Ernest J. McCormick Memorial Lecture.",
   },
   "i-o-psychology-resources": {
@@ -62,12 +120,12 @@ const PAGES = {
   },
   alumni: {
     url: "/purdue-association-of-graduate-students-in-industrial-psychology-pagsip/alumni",
-    title: "Alumni | PAGSIP | Purdue I-O Psychology",
-    desc: "Recent Purdue I-O psychology Ph.D. graduates, where they are now, and interviews with alumni about life after the program.",
+    title: "Alumni & Career Outcomes | Purdue I-O Psychology",
+    desc: "Where Purdue I-O psychology Ph.D. graduates work — professorships, research scientist roles, and industry — plus interviews on life after the program.",
   },
   newsletters: {
     url: "/purdue-association-of-graduate-students-in-industrial-psychology-pagsip/newsletters",
-    title: "Newsletters | PAGSIP | Purdue I-O Psychology",
+    title: "PAGSIP Newsletter Archive | Purdue I-O Psychology",
     desc: "The PAGSIP newsletter archive, spanning 1952 to today.",
   },
   404: { url: "/404", title: "Page Not Found | Purdue I-O Psychology", desc: "Page not found.", noindex: true },
@@ -206,48 +264,157 @@ const navScript = `
     }
   });
   var t = document.querySelector(".nav-toggle"), n = document.getElementById("site-nav");
-  if (t && n) t.addEventListener("click", function () {
-    var open = n.classList.toggle("open");
+  if (!t || !n) return;
+  function set(open) {
+    n.classList.toggle("open", open);
     t.setAttribute("aria-expanded", open ? "true" : "false");
+    t.setAttribute("aria-label", open ? "Close menu" : "Menu");
+  }
+  t.addEventListener("click", function (e) {
+    e.stopPropagation();
+    set(!n.classList.contains("open"));
+  });
+  // Same-page anchors (e.g. /people#faculty) do not reload, so the panel would
+  // otherwise stay open on top of the thing you just jumped to.
+  n.addEventListener("click", function (e) { if (e.target.closest("a")) set(false); });
+  document.addEventListener("click", function (e) {
+    if (n.classList.contains("open") && !n.contains(e.target)) set(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && n.classList.contains("open")) { set(false); t.focus(); }
   });
 })();
 </script>`;
 
-function structuredData(slug) {
+/* Research interests are stored as one semicolon-separated string for display.
+   knowsAbout wants discrete topics, so split it back apart for the markup. */
+const topics = (s) => String(s || "").split(/\s*;\s*/).map((t) => t.trim()).filter(Boolean);
+
+/* Crumbs for the two pages that sit under PAGSIP. Everything else is one level
+   down from the home page and does not need a trail. */
+const BREADCRUMBS = {
+  alumni: [["Home", "/"], ["PAGSIP", PAGES.pagsip.url], ["Alumni", PAGES.alumni.url]],
+  newsletters: [["Home", "/"], ["PAGSIP", PAGES.pagsip.url], ["Newsletters", PAGES.newsletters.url]],
+};
+
+/* The program itself, described the way Google's degree-program markup expects.
+   Only facts that are stated elsewhere on the site go in here. */
+function programNode() {
+  return {
+    "@type": "EducationalOccupationalProgram",
+    "@id": BASE + "/#phd",
+    name: "Ph.D. in Industrial-Organizational Psychology",
+    url: BASE + "/admissions",
+    description: "A research-intensive doctoral program training students as both researchers and applied scientists, on a science-practice model. Every admitted student is funded.",
+    programType: "Doctoral",
+    educationalCredentialAwarded: "Doctor of Philosophy (Ph.D.) in Industrial-Organizational Psychology",
+    educationalProgramMode: "full-time",
+    occupationalCategory: { "@type": "CategoryCode", codeValue: "19-3032.00", name: "Industrial-Organizational Psychologists" },
+    provider: { "@id": BASE + "/#program" },
+    offers: {
+      "@type": "Offer",
+      category: "Fully funded",
+      description: "Five-year funding guarantee with a nine-month stipend and tuition waiver, contingent on good progress toward the Ph.D.",
+    },
+  };
+}
+
+/* The "What is I-O psychology?" page is already a list of questions with
+   answers, so it is published as such. Each <h2 id> is the question and the
+   prose up to the next <h2> is the answer, read straight from the built page
+   so the two can never drift apart. */
+function faqNode(main) {
+  const parts = main.split(/<h2 id="/).slice(1);
+  const items = parts.map((chunk) => {
+    const q = (chunk.match(/^[^"]*">([\s\S]*?)<\/h2>/) || [])[1];
+    if (!q) return null;
+    const body = chunk.slice(chunk.indexOf("</h2>") + 5);
+    const text = body
+      .replace(/<[^>]+>/g, " ")
+      .replace(/&mdash;/g, "—").replace(/&ndash;/g, "–")
+      .replace(/&ldquo;|&rdquo;/g, '"').replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&").replace(/&rarr;/g, "")
+      .replace(/\s+/g, " ").trim();
+    if (!text) return null;
+    return {
+      "@type": "Question",
+      name: q.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").trim(),
+      acceptedAnswer: { "@type": "Answer", text: text.slice(0, 1200) },
+    };
+  }).filter(Boolean);
+  if (!items.length) return null;
+  return { "@type": "FAQPage", "@id": canonical("i-o-psychology-resources") + "#faq", mainEntity: items };
+}
+
+function structuredData(slug, main) {
   const org = {
     "@type": "EducationalOrganization",
     "@id": BASE + "/#program",
     name: "Purdue University Industrial-Organizational Psychology",
-    alternateName: "Purdue I-O Psychology",
+    alternateName: ["Purdue I-O Psychology", "Purdue Industrial-Organizational Psychology"],
     url: BASE + "/",
     description: PAGES.index.desc,
     foundingDate: "1939",
+    email: "PAGSIP@purdue.edu",
+    logo: BASE + "/favicon.svg",
+    image: BASE + "/images/home-group-photo.jpg",
     parentOrganization: { "@type": "CollegeOrUniversity", name: "Purdue University", url: "https://www.purdue.edu/" },
     address: { "@type": "PostalAddress", addressLocality: "West Lafayette", addressRegion: "IN", addressCountry: "US" },
+    sameAs: ["https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/"],
   };
   let graph = [org];
+
   if (slug === "index") {
     graph.push({
       "@type": "WebSite", "@id": BASE + "/#website", url: BASE + "/",
-      name: "Purdue I-O Psychology", publisher: { "@id": BASE + "/#program" },
+      name: "Purdue I-O Psychology", inLanguage: "en-US", publisher: { "@id": BASE + "/#program" },
+    });
+    graph.push(programNode());
+  }
+
+  if (slug === "admissions") graph.push(programNode());
+
+  if (BREADCRUMBS[slug]) {
+    graph.push({
+      "@type": "BreadcrumbList",
+      itemListElement: BREADCRUMBS[slug].map(([name, url], i) => ({
+        "@type": "ListItem", position: i + 1, name,
+        item: BASE + (url === "/" ? "/" : url),
+      })),
     });
   }
+
+  if (slug === "i-o-psychology-resources") {
+    const faq = faqNode(main);
+    if (faq) graph.push(faq);
+  }
+
   if (slug === "people") {
     const p = data("people");
-    graph = graph.concat([...p.faculty, ...p.students].map((x) => ({
+    const person = (x, role) => ({
       "@type": "Person",
+      "@id": canonical("people") + "#" + x.name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, ""),
       name: x.name,
       email: "mailto:" + x.email,
-      ...(x.role ? { jobTitle: x.role } : {}),
+      jobTitle: x.role || role,
+      image: BASE + "/" + x.photo,
       affiliation: { "@id": BASE + "/#program" },
-      knowsAbout: x.interests,
-    })));
+      worksFor: { "@id": BASE + "/#program" },
+      knowsAbout: topics(x.interests),
+      ...(x.site ? { url: x.site, sameAs: [x.site] } : {}),
+    });
+    graph = graph.concat(
+      p.faculty.map((f) => person(f, "Faculty")),
+      p.students.map((s) => person(s, "Doctoral student")),
+    );
   }
+
   return `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}</script>`;
 }
 
 function page(slug, meta, main) {
   const ogImage = BASE + "/images/home-group-photo.jpg";
+  const ogDim = readImageSize("images/home-group-photo.jpg");
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,14 +430,19 @@ function page(slug, meta, main) {
 <meta property="og:title" content="${esc(meta.title)}">
 <meta property="og:description" content="${esc(meta.desc)}">
 <meta property="og:url" content="${canonical(slug)}">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="${ogImage}">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image:alt" content="The Purdue I-O psychology faculty and graduate students.">
+${ogDim ? `<meta property="og:image:width" content="${ogDim.w}">
+<meta property="og:image:height" content="${ogDim.h}">
+` : ""}<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="The Purdue I-O psychology faculty and graduate students.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
 <link rel="stylesheet" href="/css/style.css">
-${structuredData(slug)}
+${structuredData(slug, main)}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -289,7 +461,7 @@ ${navScript}
 function renderFaculty() {
   return data("people").faculty.map((f) => `
     <article class="person">
-      <img class="person-photo" src="/${f.photo}" alt="Photograph of ${esc(f.name)}" width="400" height="400">
+      <img class="person-photo" src="/${f.photo}" alt="Photograph of ${esc(f.name)}">
       <div class="person-body">
         <h3 class="person-name">${esc(f.name)}</h3>
         ${f.admitting ? `<p class="admitting"><span class="dot" aria-hidden="true"></span>Admitting a student for ${esc(f.admitting)}</p>` : ""}
@@ -369,7 +541,7 @@ function renderPagsipMembers() {
 function renderStudents() {
   return data("people").students.map((s) => `
     <article class="person">
-      <img class="person-photo" src="/${s.photo}" alt="Photograph of ${esc(s.name)}" width="400" height="400">
+      <img class="person-photo" src="/${s.photo}" alt="Photograph of ${esc(s.name)}">
       <div class="person-body">
         <h3 class="person-name">${esc(s.name)}</h3>
         ${s.role ? `<p class="person-role">${esc(s.role)}</p>` : ""}
@@ -500,6 +672,8 @@ for (const [slug, meta] of Object.entries(PAGES)) {
 
   // lazy-load any image that has not declared a strategy
   main = main.replace(/<img (?![^>]*\bloading=)/gi, '<img loading="lazy" decoding="async" ');
+  // reserve the right box for every image, measured from the file itself
+  main = addImageDimensions(main, slug);
 
   const out = slug === "404" ? "404.html"
     : meta.url === "/" ? "index.html"
@@ -532,10 +706,49 @@ for (const [from, to] of Object.entries(REDIRECTS)) {
   console.log("  redirect", from, "->", to);
 }
 
-/* sitemap */
+/* --------------------------------------------------------------- sitemap ---
+ * <lastmod> tells crawlers which pages are worth re-reading, but only if it is
+ * true. File mtimes are the time of the last `git clone`, so they would mark
+ * every page as changed today. The commit date of the sources a page is built
+ * from is the honest answer, so ask git; if git is not there, ship the sitemap
+ * without lastmod rather than with a date that means nothing.
+ */
+const RENDERER_SOURCES = {
+  FACULTY: "people", ADMITTING_SUMMARY: "people", COURTESY: "people",
+  PAGSIP_MEMBERS: "people", POSTDOCS: "people", POSTBACS: "people", STUDENTS: "people",
+  NEWS_ITEMS: "news", ALUMNI: "alumni", INTERVIEWS: "interviews",
+  NEWSLETTERS: "newsletters", HONORARY: "honorary",
+};
+
+function lastCommit(files) {
+  try {
+    const { execFileSync } = require("child_process");
+    const dates = files.map((f) => {
+      const out = execFileSync("git", ["log", "-1", "--format=%cI", "--", f],
+        { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+      return out || null;
+    }).filter(Boolean);
+    if (!dates.length) return null;
+    return dates.sort().pop().slice(0, 10);
+  } catch {
+    return null;
+  }
+}
+
 const urls = Object.keys(PAGES)
   .filter((s) => !PAGES[s].noindex)
-  .map((s) => `  <url><loc>${canonical(s)}</loc></url>`);
+  .map((s) => {
+    const frag = path.join("src", s + ".html");
+    const sources = [frag];
+    try {
+      const raw = read(frag);
+      for (const key of Object.keys(RENDERER_SOURCES)) {
+        if (raw.includes(`<!--${key}-->`)) sources.push(path.join("data", RENDERER_SOURCES[key] + ".json"));
+      }
+    } catch { /* fragment already reported missing above */ }
+    const mod = lastCommit([...new Set(sources)]);
+    return `  <url><loc>${canonical(s)}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ""}</url>`;
+  });
 fs.writeFileSync(path.join(ROOT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`);
 

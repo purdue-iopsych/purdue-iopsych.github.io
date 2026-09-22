@@ -164,7 +164,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 
 .nav-toggle {
   display: none; background: none; border: 0; cursor: pointer;
-  padding: 10px; flex-direction: column; gap: 5px;
+  /* 44px square: the minimum comfortable touch target */
+  padding: 12px; min-width: 44px; min-height: 44px;
+  flex-direction: column; justify-content: center; align-items: center; gap: 5px;
 }
 .nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; }
 
@@ -515,6 +517,9 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 
 @media (max-width: 620px) {
   body { font-size: 16px; }
+  /* a shorter sticky bar gives back a chunk of a phone screen; anchor
+     scroll-margin reads the same token, so jump targets stay clear of it */
+  :root { --nav-h: 62px; }
   .wrap { padding: 0 16px; }
   .footer-base { padding-left: 16px; padding-right: 16px; }
   .grid-3 { grid-template-columns: 1fr; }
