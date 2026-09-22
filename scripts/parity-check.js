@@ -40,18 +40,26 @@ const EXPECT = {
   "news": ["Howard M. Weiss", "Alicia Grandey", "Fred Oswald", "Lillian T. Eby", "Carolyn Jagacinski",
     "Affective Events Theory", "Managing an Emotionally Charged Workplace",
     "The Future and Fairness of Employment Testing", "Mindfulness as a Strategy for Improving Relationships"],
-  "key facts": ["1939", "1949", "science-practice model", "SIOP Fellows", "3.64", "UN Global Compact",
-    "Ten Principles", "Mitch Daniels School of Business", "West Lafayette",
+  "key facts": ["1939", "1949", "science-practice model", "SIOP Fellows", "3.64",
+    "Mitch Daniels School of Business", "West Lafayette",
     "John and Joyce Schaeuble Award", "Joseph Tiffin Award", "Hendrix",
     "Andrews/Ross Fellowships", "Purdue Research Foundation", "Ernest J. McCormick",
     "Purdue Global", "$89k", "$125k", "10,000 members"],
-  "external links": ["siop.org", "apa.org", "onetonline.org", "unglobalcompact.org", "usnews.com",
-    "socialpsychology.org", "homeofpurdue.com", "cascade.itap.purdue.edu",
+  "external links": ["siop.org", "apa.org", "onetonline.org", "usnews.com",
+    "socialpsychology.org", "homeofpurdue.com",
     "hhs.purdue.edu", "giving.purdue.edu", "bgsu.edu", "en.wikipedia.org"],
   "documents": ["/docs/pagsip-history.pdf", "/docs/in-memoriam-dick-jeanneret.pdf",
-    "/docs/in-memoriam-frank-schmidt.pdf", "/docs/un-global-compact-coe-2022.pdf",
-    "/docs/faculty-advice-grad-school-2020.pdf", "/docs/guide-applying-to-graduate-school.pdf"],
+    "/docs/in-memoriam-frank-schmidt.pdf", "/docs/guide-applying-to-graduate-school.pdf"],
 };
+
+// Dropped deliberately after the September 2026 faculty review of the new site,
+// so parity is measured against what the program still stands behind:
+//   "UN Global Compact" / "Ten Principles" / unglobalcompact.org / the 2022 CoE
+//     PDF  -- the affiliation is no longer current, so the section was removed.
+//   cascade.itap.purdue.edu -- every such link was a Cascade CMS authoring URL
+//     that showed visitors a login page (two Hendrix awards, one honorary member).
+//   faculty-advice-grad-school-2020.pdf -- the advice from faculty still in the
+//     program now lives on /admissions itself.
 
 let missing = 0;
 for (const [group, items] of Object.entries(EXPECT)) {

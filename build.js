@@ -33,7 +33,7 @@ const PAGES = {
   "our-program": {
     url: "/our-program",
     title: "Our Program | Purdue I-O Psychology",
-    desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, built on a science-practice model and the first I-O program to join the UN Global Compact.",
+    desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, built on a science-practice model, with apprenticeship-based training alongside a faculty advisor.",
   },
   people: {
     url: "/people",
@@ -296,6 +296,7 @@ function renderFaculty() {
         ${f.admitting ? `<p class="admitting"><span class="dot" aria-hidden="true"></span>Admitting a student for ${esc(f.admitting)}</p>` : ""}
         <p class="person-meta"><a href="mailto:${esc(f.email)}">${esc(f.email)}</a></p>
         <p class="person-interests"><span class="label">Research interests</span> ${esc(f.interests)}</p>
+        ${f.lab ? `<p class="person-meta"><span class="label">Lab</span> <a href="${esc(f.site)}" target="_blank" rel="noopener">${esc(f.lab)}</a></p>` : ""}
       </div>
     </article>`).join("\n");
 }
@@ -458,8 +459,8 @@ const RENDERERS = {
   ADMITTING_SUMMARY: renderAdmittingSummary,
   COURTESY: renderCourtesy,
   PAGSIP_MEMBERS: renderPagsipMembers,
-  POSTDOCS: () => renderResearchers("postdocs", "Currently in the program", "Former post-doctoral researchers"),
-  POSTBACS: () => renderResearchers("postbacs", "Currently in the program", "Former post-baccalaureate researchers"),
+  POSTDOCS: () => renderResearchers("postdocs", "Current post-doctoral researchers", "Former post-doctoral researchers"),
+  POSTBACS: () => renderResearchers("postbacs", "Current post-baccalaureate researchers", "Former post-baccalaureate researchers"),
   STUDENTS: renderStudents,
   NEWS_ITEMS: renderNews,
   ALUMNI: renderAlumni,
