@@ -381,6 +381,19 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 .archive-year { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.08rem; color: var(--black); }
 .archive-size { display: block; font-size: .78rem; color: var(--muted); margin-top: .2em; }
 
+/* ------------------------------------------------------------ contact --- */
+.contact-line {
+  font-size: 1rem; font-weight: 600; line-height: 1.7;
+  margin: .2rem 0 .9rem;
+}
+.contact-line a { text-decoration-color: var(--gold); }
+
+.postal {
+  font-style: normal; font-size: 1.02rem; line-height: 1.75;
+  border-left: 4px solid var(--gold); padding-left: 1.1rem;
+  margin: 1.4rem 0 1.6rem;
+}
+
 /* ------------------------------------------------- lecture index (news) --- */
 .lecture-index { list-style: none; padding: 0; margin: 1.6rem 0 0; }
 .lecture-index li { margin: 0; border-top: 1px solid var(--line); }
@@ -508,14 +521,11 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
   .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
 }
 
-@media (max-width: 900px) {
-  .people-grid { grid-template-columns: 1fr; }
-  .researcher-columns { grid-template-columns: 1fr; }
-  .grid-media { grid-template-columns: 1fr; }
-  .grid-2 { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 820px) {
+/* The seven nav items plus the brand need about 910px on one line. Below that
+   the row would overflow rather than wrap, because each link is nowrap — so
+   the menu collapses well before the phone breakpoint. If you add a nav item,
+   re-check this number. */
+@media (max-width: 960px) {
   .nav-toggle { display: flex; }
   .site-nav {
     display: none; position: absolute; top: 100%; left: 0; right: 0;
@@ -528,6 +538,13 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
   .header-inner { position: relative; }
   .brand-text { font-size: .8rem; }
   .brand-text b { font-size: .78rem; }
+}
+
+@media (max-width: 900px) {
+  .people-grid { grid-template-columns: 1fr; }
+  .researcher-columns { grid-template-columns: 1fr; }
+  .grid-media { grid-template-columns: 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {

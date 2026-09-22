@@ -44,6 +44,14 @@ The `kind` field decides where an entry lands: `"McCormick Lecture"` sends it to
 anything else renders on `/news`. So a new lecture needs no wiring beyond the
 JSON entry, and the abstract is never printed on two pages at once.
 
+**Change an address, phone number, or who-to-email** — `/contact` is the one
+place these live as prose; edit `src/contact.html`. The same addresses also
+appear in three generated places, so change them together: the `contactPoint`
+list and the `address`/`telephone` on the organization node in
+`structuredData()`, the footer in `build.js`, and the contact block in
+`llms.txt`. The department's address and main line come from the
+[Department of Psychological Sciences site](https://hhs.purdue.edu/psy/).
+
 **Change a course, a milestone, or an admissions requirement** — `/curriculum`
 and `/admissions/faq` are written from the Department of Psychological Sciences
 [graduate handbook](https://hhs.purdue.edu/wp-content/uploads/2023/04/PSY-Graduate-Handbook.pdf),
@@ -204,10 +212,6 @@ files directly with `file://` will break the root-relative CSS and image paths.
   FAQ said when the pages were written. Confirm it each cycle — several I-O
   programs have gone test-optional, and this is the kind of thing that quietly
   costs applicants if it goes stale.
-- **A contact page.** There is no `/contact`, which is a common direct query and
-  a common link target. It needs the department's street address and a
-  who-to-email-about-what split (program coordinator / faculty / PAGSIP), none
-  of which is sourced on this site yet.
 - **Information sessions.** The old homepage advertised a session on Oct 20, 2025.
   It is commented out in `src/index.html` rather than published with a stale date.
   Fill in new details and uncomment when the next session is scheduled.

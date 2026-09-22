@@ -27,6 +27,7 @@
 - [News](https://www.purdueiopsych.com/news): Program news.
 - [Ernest J. McCormick Memorial Lecture](https://www.purdueiopsych.com/news/mccormick-lecture): Past speakers, talk titles and abstracts for the program's memorial lecture series.
 - [What Is I-O Psychology?](https://www.purdueiopsych.com/i-o-psychology-resources): What the field is, what I-O psychologists do, how it differs from organizational behavior and HR, and job prospects.
+- [Contact](https://www.purdueiopsych.com/contact): Who to contact about applications, faculty research, PAGSIP and alumni updates, plus the department's address.
 - [PAGSIP](https://www.purdueiopsych.com/purdue-association-of-graduate-students-in-industrial-psychology-pagsip): History, current members, honorary committee, and archive.
 - [Alumni](https://www.purdueiopsych.com/purdue-association-of-graduate-students-in-industrial-psychology-pagsip/alumni): Recent graduates, their positions, and alumni interviews.
 - [Newsletters](https://www.purdueiopsych.com/purdue-association-of-graduate-students-in-industrial-psychology-pagsip/newsletters): The PAGSIP newsletter archive, 1952 to today.
@@ -34,5 +35,6 @@
 ## Links
 
 - Apply: https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/
-- Contact: PAGSIP@purdue.edu
+- Contact: PAGSIP@purdue.edu (student association); khaskett@purdue.edu (graduate program coordinator, application questions); psych-dept@purdue.edu (department office)
+- Address: Department of Psychological Sciences, Purdue University, 703 Third Street, West Lafayette, IN 47907
 - Society for Industrial and Organizational Psychology (SIOP): https://www.siop.org/

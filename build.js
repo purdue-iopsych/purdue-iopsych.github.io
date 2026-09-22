@@ -130,6 +130,11 @@ const PAGES = {
     desc: "What industrial-organizational psychology is, what I-O psychologists do, how the field differs from OB and HR, and what the job prospects look like.",
     faq: true,
   },
+  contact: {
+    url: "/contact",
+    title: "Contact | Purdue I-O Psychology",
+    desc: "Who to contact at Purdue's I-O psychology program about applications, faculty research, PAGSIP, and alumni updates — plus the department's address in West Lafayette.",
+  },
   pagsip: {
     url: "/purdue-association-of-graduate-students-in-industrial-psychology-pagsip",
     title: "PAGSIP | Purdue I-O Psychology",
@@ -155,6 +160,7 @@ const NAV = [
   ["/news", "News"],
   ["/i-o-psychology-resources", "What Is I-O?"],
   [PAGES.pagsip.url, "PAGSIP"],
+  ["/contact", "Contact"],
 ];
 
 /* Old Google Sites paths that must keep working, plus short aliases. */
@@ -261,6 +267,7 @@ const footer = (slug) => `${feedbackStrip(slug)}
     </nav>
     <div class="footer-col">
       <h2>Contact</h2>
+      <a href="/contact">Who to contact</a>
       <a href="mailto:PAGSIP@purdue.edu">PAGSIP@purdue.edu</a>
       <a href="https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/">Apply to the program</a>
     </div>
@@ -383,10 +390,20 @@ function structuredData(slug, main) {
     description: PAGES.index.desc,
     foundingDate: "1939",
     email: "PAGSIP@purdue.edu",
+    telephone: "+1-765-494-6061",
     logo: BASE + "/favicon.svg",
     image: BASE + "/images/home-group-photo.jpg",
     parentOrganization: { "@type": "CollegeOrUniversity", name: "Purdue University", url: "https://www.purdue.edu/" },
-    address: { "@type": "PostalAddress", addressLocality: "West Lafayette", addressRegion: "IN", addressCountry: "US" },
+    /* The program is housed in the Department of Psychological Sciences, so
+       this is the department's address and main line. */
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "703 Third Street",
+      addressLocality: "West Lafayette",
+      addressRegion: "IN",
+      postalCode: "47907",
+      addressCountry: "US",
+    },
     sameAs: ["https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/"],
   };
   let graph = [org];
@@ -400,6 +417,25 @@ function structuredData(slug, main) {
   }
 
   if (slug === "admissions" || slug === "curriculum") graph.push(programNode());
+
+  if (slug === "contact") {
+    graph.push({
+      "@type": "ContactPage",
+      "@id": canonical("contact") + "#page",
+      url: canonical("contact"),
+      name: PAGES.contact.title,
+      about: { "@id": BASE + "/#program" },
+      mainEntity: {
+        "@id": BASE + "/#program",
+        contactPoint: [
+          { "@type": "ContactPoint", contactType: "admissions", email: "khaskett@purdue.edu", areaServed: "US", availableLanguage: "English" },
+          { "@type": "ContactPoint", contactType: "student association", email: "PAGSIP@purdue.edu" },
+          { "@type": "ContactPoint", contactType: "alumni", email: "pagsip.purdue@gmail.com" },
+          { "@type": "ContactPoint", contactType: "general", email: "psych-dept@purdue.edu", telephone: "+1-765-494-6061" },
+        ],
+      },
+    });
+  }
 
   if (BREADCRUMBS[slug]) {
     graph.push({
