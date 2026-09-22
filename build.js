@@ -186,7 +186,6 @@ const footer = (slug) => `${feedbackStrip(slug)}
       <h2>Contact</h2>
       <a href="mailto:PAGSIP@purdue.edu">PAGSIP@purdue.edu</a>
       <a href="https://hhs.purdue.edu/graduate-programs/industrial-organizational-psychology/">Apply to the program</a>
-      <a href="https://giving.purdue.edu/">Give to the program</a>
     </div>
   </div>
   <div class="wrap footer-base">
@@ -326,13 +325,25 @@ function renderCourtesy() {
 /* Post-docs and post-bac researchers, split into current and former. These are
    people attached to the program's labs rather than enrolled in the Ph.D., so
    they get a lighter entry than the person cards above. */
+/* A researcher's lab is the same lab a faculty card names, so it links to the
+   same place rather than repeating the URL. Christopher Wiese's lab reads
+   "WAM Lab (joint with ...)", so the known name is matched as a prefix and only
+   that part becomes the link. */
+function labLink(lab) {
+  const hit = data("people").faculty
+    .filter((f) => f.lab && f.site)
+    .find((f) => lab === f.lab || lab.startsWith(f.lab + " "));
+  if (!hit) return esc(lab);
+  return `<a href="${esc(hit.site)}" target="_blank" rel="noopener">${esc(hit.lab)}</a>${esc(lab.slice(hit.lab.length))}`;
+}
+
 function renderResearchers(key, currentLabel, formerLabel) {
   const all = data("people")[key] || [];
   const group = (status) => all.filter((r) => r.status === status);
   const entry = (r) => `
         <li>
           <span class="researcher-name">${r.url ? `<a href="${esc(r.url)}">${esc(r.name)}</a>` : esc(r.name)}</span>
-          ${r.role || r.lab ? `<span class="researcher-role">${[r.role, r.lab].filter(Boolean).map(esc).join(" &middot; ")}</span>` : ""}
+          ${r.role || r.lab ? `<span class="researcher-role">${[r.role && esc(r.role), r.lab && labLink(r.lab)].filter(Boolean).join(" &middot; ")}</span>` : ""}
           ${r.note ? `<span class="researcher-note">${esc(r.note)}</span>` : ""}
         </li>`;
   const block = (status, label) => {

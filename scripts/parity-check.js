@@ -49,7 +49,7 @@ const EXPECT = {
     "Purdue Global", "$89k", "$125k", "10,000 members"],
   "external links": ["siop.org", "apa.org", "onetonline.org", "usnews.com",
     "socialpsychology.org", "homeofpurdue.com",
-    "hhs.purdue.edu", "giving.purdue.edu", "bgsu.edu", "en.wikipedia.org"],
+    "hhs.purdue.edu", "bgsu.edu", "en.wikipedia.org"],
   "documents": ["/docs/pagsip-history.pdf", "/docs/in-memoriam-dick-jeanneret.pdf",
     "/docs/in-memoriam-frank-schmidt.pdf", "/docs/guide-applying-to-graduate-school.pdf"],
 };

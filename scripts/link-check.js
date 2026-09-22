@@ -12,8 +12,12 @@ const checkExternal = process.argv.includes("--external");
 
 // Hosts that refuse scripted requests. A non-200 from these means nothing, so
 // they are reported separately rather than counted as failures.
+// cie.ucmerced.edu answers 403 to every automated client (curl, fetch, a browser
+// user-agent) while serving the page normally in a browser -- a WAF, not a dead
+// link. 403 rather than 404 is the tell. Verify that one by eye.
 const BOT_BLOCKED = ["linkedin.com", "scholar.google.com", "academia.edu", "researchgate.net",
-  "x.com", "siop.org", "usnews.com", "fonts.gstatic.com", "fonts.googleapis.com"];
+  "x.com", "siop.org", "usnews.com", "fonts.gstatic.com", "fonts.googleapis.com",
+  "cie.ucmerced.edu"];
 
 const pages = [];
 (function walk(d) {

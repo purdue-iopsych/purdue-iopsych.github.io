@@ -31,7 +31,7 @@
       "name": "Louis Tay",
       "email": "stay@purdue.edu",
       "photo": "images/faculty-tay.jpg",
-      "interests": "Measurement; data science; well-being; organizational psychology",
+      "interests": "Measurement; data science; well-being; organizational psychology; AI and machine learning",
       "admitting": "Fall 2027",
       "lab": "WAM Lab",
       "site": "https://www.wam-lab.com/"
@@ -120,9 +120,10 @@
   "postdocs": [
     {
       "name": "Amal Chekili",
-      "status": "current",
+      "status": "former",
       "lab": "WAM Lab",
-      "note": "Ph.D. in Industrial-Organizational Psychology, Virginia Tech. Studies the benefits, challenges, and opportunities of AI in organizational settings."
+      "note": "Now a Business Intelligence Specialist at the University of California, Merced.",
+      "url": "https://cie.ucmerced.edu/contact/meet-team"
     },
     {
       "name": "Jinsoo Choi",
@@ -178,37 +179,43 @@
       "name": "Annika (Ziqi) Wei",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now a Research Associate at Harvard Business School."
+      "note": "Now a Research Associate at Harvard Business School.",
+      "url": "https://www.linkedin.com/in/annika-wei-5407601b7/"
     },
     {
       "name": "Cavan Bonner",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now a Personality Psychology Ph.D. student at the University of Illinois Urbana-Champaign (NSF GRFP awardee)."
+      "note": "Now a Personality Psychology Ph.D. student at the University of Illinois Urbana-Champaign (NSF GRFP awardee).",
+      "url": "https://scholar.google.com/citations?hl=en&user=TuUR_L8AAAAJ"
     },
     {
       "name": "Audrey Palmeri",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now an Industrial-Organizational Psychology Ph.D. student at Pennsylvania State University."
+      "note": "Now an Industrial-Organizational Psychology Ph.D. student at Pennsylvania State University.",
+      "url": "https://www.linkedin.com/in/audrey-palmeri-08a2a6157/"
     },
     {
       "name": "Molly Cooper",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now a Counseling Psychology Ph.D. student at Fordham University."
+      "note": "Now a Counseling Psychology Ph.D. student at Fordham University.",
+      "url": "https://www.linkedin.com/in/molly-cooper-659755187/"
     },
     {
       "name": "Gloria Liou",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now an Industrial-Organizational Psychology Ph.D. student in this program (NSF GRFP awardee)."
+      "note": "Now an Industrial-Organizational Psychology Ph.D. student in this program (NSF GRFP awardee).",
+      "url": "https://scholar.google.com/citations?hl=en&user=2_yzhM4AAAAJ"
     },
     {
       "name": "Fanyi Zhang",
       "status": "former",
       "lab": "WAM Lab",
-      "note": "Now an Industrial-Organizational Psychology Ph.D. student in this program."
+      "note": "Now an Industrial-Organizational Psychology Ph.D. student in this program.",
+      "url": "https://www.linkedin.com/in/fanyi-zhang-690895106/"
     }
   ]
 }
