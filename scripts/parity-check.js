@@ -31,7 +31,9 @@ const EXPECT = {
   "faculty emails": ["aharrisw@purdue.edu", "fkung@purdue.edu", "bmacnama@purdue.edu", "stay@purdue.edu", "sewoo@purdue.edu"],
   "student emails": ["cbyun@purdue.edu", "kim4816@purdue.edu", "lioug@purdue.edu", "lum11@purdue.edu", "jmasser@purdue.edu", "eshowalt@purdue.edu"],
   "contact emails": ["PAGSIP@purdue.edu", "AMKim@prf.org", "pagsip.purdue@gmail.com"],
-  "alumni": ["Victoria Scotney Wang", "Meaghan Tracy", "Fanyi Zhang", "Daphne Hou", "Bradley Pitcher", "Rick Yang",
+  // Fanyi Zhang was listed here as a 2026 graduate; she is still a student in
+  // the program, so she is no longer expected among the alumni.
+  "alumni": ["Victoria Scotney Wang", "Meaghan Tracy", "Daphne Hou", "Bradley Pitcher", "Rick Yang",
     "Jerod White", "Sharon Li", "Stuti Thapa", "Louis Hickman", "Nicole (Schulz) Strah", "Andrew Jebb",
     "Melissa Keith", "Cassondra Batz-Barbarich", "Vincent Ng", "Rachel Saef", "Scott Parrigon",
     "Drew Mallory", "Brett Guidry", "Caitlin Porter"],
