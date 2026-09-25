@@ -106,8 +106,11 @@ matching entry to `RENDERERS` in `build.js`. Existing ones: `FACULTY`, `COURTESY
 
 ## The feedback form
 
-Every page ends with a "Give feedback on this page" strip. GitHub Pages is
-static and cannot receive a form post, so this points at an off-site form.
+**Currently switched off** (`FEEDBACK.enabled = false`) — the I-O area's
+internal review closed in Sept 2026. The form and wiring are kept so it can be
+turned back on. When enabled, every page ends with a "Give feedback on this
+page" strip. GitHub Pages is static and cannot receive a form post, so this
+points at an off-site form.
 
 It is configured by the `FEEDBACK` object near the top of `build.js`:
 
@@ -123,9 +126,8 @@ While `formUrl` is empty the button falls back to a `mailto:` link with the page
 path in the subject, so the site is never broken.
 
 The strip's wording also lives in `FEEDBACK` (`heading`, `body`, `cta`). It is
-currently addressed to the I-O area during internal review. **Before the domain
-cutover it becomes public-facing** — reword it for visitors, or set
-`enabled: false` to drop the strip entirely.
+still addressed to the I-O area's internal review, so **reword it for public
+visitors before setting `enabled: true` again**.
 
 **To connect a Google Form:**
 

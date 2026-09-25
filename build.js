@@ -193,11 +193,10 @@ const FEEDBACK = {
   pageSuffix: "]\n\n",
   fallbackEmail: "PAGSIP@purdue.edu",
 
-  // Copy for the strip at the bottom of every page. This is currently aimed at
-  // the I-O area while the new site is under internal review.
-  // TODO before the domain cutover: this becomes public-facing. Either reword it
-  // for visitors or set `enabled: false` to drop the strip entirely.
-  enabled: true,
+  // Copy for the strip at the bottom of every page. Switched off after the
+  // I-O area's internal review closed (Sept 2026). The copy below is still
+  // internal-facing, so reword it for visitors before turning this back on.
+  enabled: false,
   heading: "What would make this page better?",
   body: "We are reviewing the new site with the I-O area. Corrections, anything missing, wording that does not land, or something you would like this page to do &mdash; all of it is useful.",
   cta: "Share feedback on this page",
