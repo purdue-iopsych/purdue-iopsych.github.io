@@ -207,7 +207,9 @@ files directly with `file://` will break the root-relative CSS and image paths.
   engines see. Meanwhile every page here declares a canonical URL on that
   domain, which tells a crawler that finds `purdue-iopsych.github.io` to go read
   the *old* site instead. Until the DNS cutover, none of this site's SEO work
-  can take effect. There is also no `CNAME` file in the repo yet.
+  can take effect. GitHub's side is done (2026-10-08): `CNAME` holds
+  `www.purdueiopsych.com` and Pages has the custom domain set. Still waiting on the
+  DNS records at Squarespace Domains (Gloria / PAGSIP account), then Enforce HTTPS.
   **This blocks everything else on this list.**
 - **The GRE.** `/admissions` and `/admissions/faq` both state that the GRE
   General Test is required, which is what the Graduate School and the department
