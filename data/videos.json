@@ -1,0 +1,68 @@
+{
+  "playlist": "PLfAojmt4nT9w",
+  "uploaded": "2026-10-15",
+  "teaser": {
+    "youtube": "S_Pd-kZya9E",
+    "title": "What are I-O faculty at Purdue really like?",
+    "duration": "0:28",
+    "thumb": "images/video-teaser.jpg",
+    "blurb": "A 30-second preview of the series: Franki Kung drops in on faculty and students during office hours."
+  },
+  "videos": [
+    {
+      "slug": "louis-tay",
+      "person": "Louis Tay",
+      "role": "Faculty",
+      "youtube": "IXnz4NLox4U",
+      "duration": "2:47",
+      "thumb": "images/video-louis.jpg",
+      "blurb": "Well-being, AI and measurement, why measurement is anything but boring, and the quality that makes an applicant stand out."
+    },
+    {
+      "slug": "sang-eun-woo",
+      "person": "Sang Eun Woo",
+      "role": "Faculty",
+      "youtube": "ixjrPr1CUT8",
+      "duration": "2:29",
+      "thumb": "images/video-sangeun.jpg",
+      "blurb": "Personality and motivation at work, what makes mentoring rewarding, and the three words that make an application stand out."
+    },
+    {
+      "slug": "brooke-n-macnamara",
+      "person": "Brooke N. Macnamara",
+      "role": "Faculty",
+      "youtube": "HsP_KwB_pUE",
+      "duration": "3:01",
+      "thumb": "images/video-brooke.jpg",
+      "blurb": "How people get better at complex skills, and why a specific research question beats a broad topic in your statement."
+    },
+    {
+      "slug": "alex-harris-watson",
+      "person": "Alex Harris-Watson",
+      "role": "Faculty",
+      "youtube": "Q2crijh8LfM",
+      "duration": "3:21",
+      "thumb": "images/video-alex.jpg",
+      "blurb": "Teams, leadership and human-AI collaboration, a new lab study of team composition, and why initiative matters in a Ph.D. applicant."
+    },
+    {
+      "slug": "franki-y-h-kung",
+      "person": "Franki Y. H. Kung",
+      "role": "Faculty",
+      "youtube": "VSWa_s4Mykc",
+      "duration": "3:37",
+      "thumb": "images/video-franki.jpg",
+      "title": "Dropping in on Franki Kung",
+      "blurb": "The host takes the hot seat: conflict management, humanizing workplaces in the age of AI, and how to develop a strong research question."
+    },
+    {
+      "slug": "emma-showalter",
+      "person": "Emma Showalter",
+      "role": "Ph.D. student",
+      "youtube": "cp8jpazSkzs",
+      "duration": "3:04",
+      "thumb": "images/video-emma.jpg",
+      "blurb": "A current student on the mentor program, the psychological safety in the program, and what student life is really like."
+    }
+  ]
+}

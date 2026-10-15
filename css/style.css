@@ -514,6 +514,74 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 }
 .footer-base p { font-size: .82rem; color: var(--cool-gray); margin: 0; max-width: 62ch; }
 
+/* ------------------------------------------------------------- videos --- */
+/* Click-to-play facades for the Office Hours series (see renderVideos). */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.yt {
+  position: relative; display: block; width: 100%; aspect-ratio: 16 / 9;
+  background: var(--black); border: 0; border-radius: 4px; overflow: hidden;
+}
+.yt img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+.yt:hover img { transform: scale(1.03); }
+.yt-play {
+  position: absolute; right: 12px; bottom: 12px;
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: .5em .95em .5em .8em; border-radius: 999px;
+  background: rgba(0, 0, 0, .8); border: 1.5px solid var(--gold);
+  color: #fff; font-size: .86rem; font-weight: 600; line-height: 1;
+  transition: background .15s ease, transform .15s ease;
+}
+.yt-play::before {
+  content: ""; border-style: solid; border-width: .45em 0 .45em .72em;
+  border-color: transparent transparent transparent var(--gold);
+}
+.yt-dur { color: var(--gold); font-weight: 500; }
+.video-feature .yt-play { top: 14px; bottom: auto; }
+.yt:hover .yt-play, .yt:focus-visible .yt-play { background: var(--black); transform: scale(1.05); }
+.yt:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+.video-feature {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(1.4rem, 3vw, 2.4rem);
+  align-items: center; margin: 2rem 0 2.6rem;
+}
+.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 3vw, 2rem); }
+.video-card {
+  border: 1px solid var(--line); border-radius: 4px; background: var(--paper);
+  overflow: hidden; transition: box-shadow .2s ease, border-color .2s ease;
+}
+.video-card .yt { border-radius: 0; }
+.video-card .video-body { padding: 1rem 1.2rem 1.3rem; }
+.video-card:target { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+.video-meta {
+  font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--aged); margin: 0 0 .35rem;
+}
+.video-title { font-size: 1.18rem; margin-bottom: .4rem; }
+.video-feature .video-title { font-size: clamp(1.35rem, 2.4vw, 1.7rem); }
+.video-blurb { font-size: .94rem; color: var(--ink-soft); margin: 0; }
+.video-cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.4rem; }
+
+.meet-link { margin: .8rem 0 0; font-size: .9rem; font-weight: 600; }
+.meet-link a { display: inline-flex; align-items: center; gap: .45em; color: var(--aged); text-decoration-color: var(--gold); }
+.meet-link a:hover { color: var(--black); }
+.play-dot {
+  width: 1.35em; height: 1.35em; border-radius: 50%; background: var(--gold); flex: none; position: relative;
+}
+.play-dot::after {
+  content: ""; position: absolute; left: 55%; top: 50%; transform: translate(-50%, -50%);
+  border-style: solid; border-width: .3em 0 .3em .48em;
+  border-color: transparent transparent transparent var(--black);
+}
+
+@media (max-width: 1000px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) {
+  .video-feature { grid-template-columns: 1fr; }
+  .video-grid { grid-template-columns: 1fr; }
+}
+
 /* --------------------------------------------------------- responsive --- */
 @media (max-width: 1000px) {
   .grid-3 { grid-template-columns: repeat(2, 1fr); }

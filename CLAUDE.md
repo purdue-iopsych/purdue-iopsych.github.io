@@ -62,6 +62,13 @@ admissions cycle** — the deadline, the fees, the GRE policy and the TOEFL
 thresholds are all set elsewhere and change without anyone telling us. The
 handbook edition is named on `/curriculum`; bump it when a new one is posted.
 
+**Add or change an Office Hours video** — edit `data/videos.json` (YouTube id,
+duration, blurb, thumbnail in `images/video-<who>.jpg`). `person` must match the
+name in `data/people.json` exactly: that is what puts the "Get to know me" link
+on their /people card, pointing at `/our-program#meet-<slug>`. The section, the
+click-to-play players and the VideoObject structured data are all generated from
+this one file. Players load nothing from YouTube until clicked.
+
 **Add a newsletter** — drop the PDF in `newsletters/` as
 `pagsip-newsletter-<year>.pdf`, then prepend an entry to `data/newsletters.json`
 with `key`, `year`, `label`, `file`, and `sizeKB`. The newest entry is rendered as

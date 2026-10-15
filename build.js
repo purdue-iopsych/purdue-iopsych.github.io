@@ -417,6 +417,24 @@ function structuredData(slug, main) {
 
   if (slug === "admissions" || slug === "curriculum") graph.push(programNode());
 
+  if (main.includes("data-yt=")) {
+    const d = data("videos");
+    const node = (id, name, description, duration, thumb) => ({
+      "@type": "VideoObject",
+      "@id": canonical(slug) + "#video-" + id,
+      name, description,
+      thumbnailUrl: [BASE + "/" + thumb, `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`],
+      uploadDate: d.uploaded,
+      duration: isoDuration(duration),
+      embedUrl: `https://www.youtube-nocookie.com/embed/${id}`,
+      contentUrl: `https://www.youtube.com/watch?v=${id}`,
+      inLanguage: "en",
+      publisher: { "@id": BASE + "/#program" },
+    });
+    graph.push(node(d.teaser.youtube, d.teaser.title, d.teaser.blurb, d.teaser.duration, d.teaser.thumb));
+    d.videos.forEach((v) => graph.push(node(v.youtube, "Office Hours: " + videoTitle(v), v.blurb, v.duration, v.thumb)));
+  }
+
   if (slug === "contact") {
     graph.push({
       "@type": "ContactPage",
@@ -513,11 +531,79 @@ ${headerHTML}
 ${main.trim()}
 </main>
 ${footer(slug)}
-${navScript}
+${navScript}${main.includes("data-yt=") ? videoScript : ""}
 </body>
 </html>
 `;
 }
+
+/* ---------------------------------------------------------------- videos ---
+ * The "Get to know us" Office Hours series on /our-program. Each video is a
+ * click-to-play facade: a local thumbnail inside a real link to YouTube, swapped
+ * for a privacy-enhanced (youtube-nocookie) player only when someone clicks.
+ * Nothing loads from YouTube until then, so the page stays fast, and without
+ * JavaScript the link still works. Each card has an id (#meet-<slug>) that the
+ * matching person card on /people links to. */
+const VIDEO_PAGE = "/our-program";
+const videoFor = (name) => data("videos").videos.find((v) => v.person === name);
+const shortName = (n) => n.replace(/( [A-Z]\.)+ /, " ");
+const videoTitle = (v) => v.title || `Franki Kung drops in on ${shortName(v.person)}`;
+const meetLink = (name) => {
+  const v = videoFor(name);
+  return v ? `<p class="meet-link"><a href="${VIDEO_PAGE}#meet-${v.slug}"><span class="play-dot" aria-hidden="true"></span>Get to know me <span class="sr-only">— watch ${esc(name)}'s Office Hours video</span><span aria-hidden="true">(${esc(v.duration)})</span></a></p>` : "";
+};
+
+function videoPlayer(id, thumb, title, duration) {
+  return `<a class="yt" href="https://www.youtube.com/watch?v=${id}" data-yt="${id}" aria-label="Play video: ${esc(title)}">
+      <img src="/${thumb}" alt="">
+      <span class="yt-play" aria-hidden="true">Watch <span class="yt-dur">${esc(duration)}</span></span>
+    </a>`;
+}
+
+function renderVideos() {
+  const d = data("videos");
+  const t = d.teaser;
+  const cards = d.videos.map((v) => `
+    <article class="video-card" id="meet-${v.slug}">
+      ${videoPlayer(v.youtube, v.thumb, videoTitle(v), v.duration)}
+      <div class="video-body">
+        <p class="video-meta">${esc(v.role)}</p>
+        <h3 class="video-title">${esc(shortName(v.person))}</h3>
+        <p class="video-blurb">${esc(v.blurb)}</p>
+      </div>
+    </article>`).join("\n");
+  return `
+    <div class="video-feature">
+      ${videoPlayer(t.youtube, t.thumb, t.title, t.duration)}
+      <div class="video-body">
+        <p class="video-meta">Start here</p>
+        <h3 class="video-title">${esc(t.title)}</h3>
+        <p class="video-blurb">${esc(t.blurb)}</p>
+      </div>
+    </div>
+    <div class="video-grid">${cards}
+    </div>`;
+}
+
+/* Swap a facade for the player on click. Loaded only on pages that have one. */
+const videoScript = `
+<script>
+document.addEventListener("click", function (e) {
+  var a = e.target.closest("a[data-yt]");
+  if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+  e.preventDefault();
+  var f = document.createElement("iframe");
+  f.src = "https://www.youtube-nocookie.com/embed/" + a.dataset.yt + "?autoplay=1&rel=0&cc_load_policy=1&modestbranding=1";
+  f.title = a.getAttribute("aria-label").replace(/^Play video: /, "");
+  f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+  f.allowFullscreen = true;
+  f.className = "yt yt-live";
+  a.replaceWith(f);
+  f.focus();
+});
+</script>`;
+
+const isoDuration = (mmss) => { const [m, s] = mmss.split(":").map(Number); return `PT${m}M${s}S`; };
 
 /* ------------------------------------------------------------ renderers --- */
 function renderFaculty() {
@@ -530,6 +616,7 @@ function renderFaculty() {
         <p class="person-meta"><a href="mailto:${esc(f.email)}">${esc(f.email)}</a></p>
         <p class="person-interests"><span class="label">Research interests</span> ${esc(f.interests)}</p>
         ${f.lab ? `<p class="person-meta"><span class="label">Lab</span> <a href="${esc(f.site)}" target="_blank" rel="noopener">${esc(f.lab)}</a></p>` : ""}
+        ${meetLink(f.name)}
       </div>
     </article>`).join("\n");
 }
@@ -609,6 +696,7 @@ function renderStudents() {
         ${s.role ? `<p class="person-role">${esc(s.role)}</p>` : ""}
         <p class="person-meta">Year ${esc(s.year)} &middot; Advisor: ${esc(s.advisor)}<br><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></p>
         <p class="person-interests"><span class="label">Research interests</span> ${esc(s.interests)}</p>
+        ${meetLink(s.name)}
       </div>
     </article>`).join("\n");
 }
@@ -743,6 +831,7 @@ const RENDERERS = {
   NEWSLETTERS: renderNewsletters,
   HONORARY: renderHonorary,
   GALLERY: renderGallery,
+  VIDEOS: renderVideos,
 };
 
 /* ----------------------------------------------------------------- run --- */
@@ -810,7 +899,7 @@ const RENDERER_SOURCES = {
   PAGSIP_MEMBERS: "people", POSTDOCS: "people", POSTBACS: "people", STUDENTS: "people",
   NEWS_ITEMS: "news", LECTURES: "news", LECTURE_INDEX: "news",
   ALUMNI: "alumni", INTERVIEWS: "interviews",
-  NEWSLETTERS: "newsletters", HONORARY: "honorary",
+  NEWSLETTERS: "newsletters", HONORARY: "honorary", VIDEOS: "videos",
 };
 
 function lastCommit(files) {
