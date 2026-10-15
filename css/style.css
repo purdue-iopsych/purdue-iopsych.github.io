@@ -564,6 +564,14 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 .video-blurb { font-size: .94rem; color: var(--ink-soft); margin: 0; }
 .video-cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.4rem; }
 
+.video-transcript { margin-top: .9rem; font-size: .9rem; }
+.video-transcript summary {
+  cursor: pointer; font-weight: 600; color: var(--aged);
+  text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px;
+}
+.video-transcript[open] summary { margin-bottom: .6rem; }
+.video-transcript p { margin: 0 0 .55rem; color: var(--ink-soft); }
+.video-transcript p.q { font-style: italic; color: var(--muted); }
 .meet-link { margin: .8rem 0 0; font-size: .9rem; font-weight: 600; }
 .meet-link a { display: inline-flex; align-items: center; gap: .45em; color: var(--aged); text-decoration-color: var(--gold); }
 .meet-link a:hover { color: var(--black); }

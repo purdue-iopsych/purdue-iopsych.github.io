@@ -91,7 +91,7 @@ const PAGES = {
   "our-program": {
     url: "/our-program",
     title: "About the Ph.D. Program | Purdue I-O Psychology",
-    desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, built on a science-practice model, with apprenticeship-based training alongside a faculty advisor.",
+    desc: "A research-intensive Ph.D. in industrial-organizational psychology at Purdue University, with apprenticeship-based training alongside a faculty advisor. Meet the I-O faculty and students in short Office Hours videos.",
   },
   curriculum: {
     url: "/curriculum",
@@ -100,8 +100,8 @@ const PAGES = {
   },
   people: {
     url: "/people",
-    title: "Faculty & Graduate Students | Purdue I-O Psychology",
-    desc: "The faculty and graduate students of Purdue's I-O psychology Ph.D. program, their research interests, and who is admitting students this cycle.",
+    title: "I-O Psychology Faculty & Graduate Students | Purdue University",
+    desc: "Meet the industrial-organizational psychology faculty and Ph.D. students at Purdue University: research interests, labs, who is admitting students this cycle, and a short video with each faculty member.",
   },
   admissions: {
     url: "/admissions",
@@ -419,20 +419,24 @@ function structuredData(slug, main) {
 
   if (main.includes("data-yt=")) {
     const d = data("videos");
-    const node = (id, name, description, duration, thumb) => ({
+    const node = (id, name, description, duration, thumb, slug, person) => ({
       "@type": "VideoObject",
-      "@id": canonical(slug) + "#video-" + id,
+      "@id": videoId(id),
       name, description,
       thumbnailUrl: [BASE + "/" + thumb, `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`],
       uploadDate: d.uploaded,
       duration: isoDuration(duration),
       embedUrl: `https://www.youtube-nocookie.com/embed/${id}`,
       contentUrl: `https://www.youtube.com/watch?v=${id}`,
+      url: canonical("our-program") + (person ? "#meet-" + slug : "#get-to-know-us"),
       inLanguage: "en",
+      isFamilyFriendly: true,
       publisher: { "@id": BASE + "/#program" },
+      ...(transcriptParas(slug).length ? { transcript: transcriptParas(slug).join("\n\n") } : {}),
+      ...(person ? { about: { "@id": personId(person) }, actor: [...new Set([person, "Franki Y. H. Kung"])].map((n) => ({ "@id": personId(n) })) } : {}),
     });
-    graph.push(node(d.teaser.youtube, d.teaser.title, d.teaser.blurb, d.teaser.duration, d.teaser.thumb));
-    d.videos.forEach((v) => graph.push(node(v.youtube, "Office Hours: " + videoTitle(v), v.blurb, v.duration, v.thumb)));
+    graph.push(node(d.teaser.youtube, d.teaser.title, d.teaser.blurb, d.teaser.duration, d.teaser.thumb, "teaser"));
+    d.videos.forEach((v) => graph.push(node(v.youtube, "Office Hours: " + videoTitle(v), v.blurb, v.duration, v.thumb, v.slug, v.person)));
   }
 
   if (slug === "contact") {
@@ -473,7 +477,7 @@ function structuredData(slug, main) {
     const p = data("people");
     const person = (x, role) => ({
       "@type": "Person",
-      "@id": canonical("people") + "#" + x.name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, ""),
+      "@id": personId(x.name),
       name: x.name,
       email: "mailto:" + x.email,
       jobTitle: x.role || role,
@@ -482,6 +486,7 @@ function structuredData(slug, main) {
       worksFor: { "@id": BASE + "/#program" },
       knowsAbout: topics(x.interests),
       ...(x.site ? { url: x.site, sameAs: [x.site] } : {}),
+      ...(videoFor(x.name) ? { subjectOf: { "@id": videoId(videoFor(x.name).youtube) } } : {}),
     });
     graph = graph.concat(
       p.faculty.map((f) => person(f, "Faculty")),
@@ -570,6 +575,7 @@ function renderVideos() {
         <p class="video-meta">${esc(v.role)}</p>
         <h3 class="video-title">${esc(shortName(v.person))}</h3>
         <p class="video-blurb">${esc(v.blurb)}</p>
+        ${transcriptHTML(v.slug, shortName(v.person))}
       </div>
     </article>`).join("\n");
   return `
@@ -602,6 +608,24 @@ document.addEventListener("click", function (e) {
   f.focus();
 });
 </script>`;
+
+/* Transcripts are the hand-checked captions, one paragraph per speaker turn
+   (data/transcripts/<slug>.txt). They give search engines and AI answer engines
+   the words of each video, which they cannot get from the video itself. */
+const transcriptParas = (slug) => {
+  const f = path.join(ROOT, "data", "transcripts", slug + ".txt");
+  return fs.existsSync(f) ? fs.readFileSync(f, "utf8").trim().split(/\r?\n\s*\r?\n/) : [];
+};
+const transcriptHTML = (slug, name) => {
+  const paras = transcriptParas(slug);
+  if (!paras.length) return "";
+  return `<details class="video-transcript">
+        <summary>Read the transcript<span class="sr-only"> of ${esc(name)}</span></summary>
+        ${paras.map((t) => /\?$/.test(t) ? `<p class="q">${esc(t)}</p>` : `<p>${esc(t)}</p>`).join("\n        ")}
+      </details>`;
+};
+const personId = (name) => canonical("people") + "#" + name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
+const videoId = (yt) => canonical("our-program") + "#video-" + yt;
 
 const isoDuration = (mmss) => { const [m, s] = mmss.split(":").map(Number); return `PT${m}M${s}S`; };
 
@@ -929,9 +953,21 @@ const urls = Object.keys(PAGES)
       }
     } catch { /* fragment already reported missing above */ }
     const mod = lastCommit([...new Set(sources)]);
-    return `  <url><loc>${canonical(s)}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ""}</url>`;
+    let vids = "";
+    try {
+      if (read(path.join("src", s + ".html")).includes("<!--VIDEOS-->")) {
+        const d = data("videos");
+        const xml = (t) => esc(t).replace(/'/g, "&apos;");
+        vids = [{ ...d.teaser, slug: "teaser", name: d.teaser.title }, ...d.videos.map((v) => ({ ...v, name: "Office Hours: " + videoTitle(v) }))]
+          .map((v) => {
+            const [m, sec] = v.duration.split(":").map(Number);
+            return `<video:video><video:thumbnail_loc>${BASE}/${v.thumb}</video:thumbnail_loc><video:title>${xml(v.name)}</video:title><video:description>${xml(v.blurb)}</video:description><video:player_loc>https://www.youtube-nocookie.com/embed/${v.youtube}</video:player_loc><video:duration>${m * 60 + sec}</video:duration><video:publication_date>${d.uploaded}</video:publication_date><video:family_friendly>yes</video:family_friendly></video:video>`;
+          }).join("");
+      }
+    } catch { /* no fragment */ }
+    return `  <url><loc>${canonical(s)}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ""}${vids}</url>`;
   });
 fs.writeFileSync(path.join(ROOT, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`);
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${urls.join("\n")}\n</urlset>\n`);
 
 console.log(`\n${built} pages + ${Object.keys(REDIRECTS).length} redirects + sitemap.xml`);
