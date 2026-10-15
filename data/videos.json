@@ -10,6 +10,34 @@
   },
   "videos": [
     {
+      "slug": "alex-harris-watson",
+      "person": "Alex Harris-Watson",
+      "role": "Faculty",
+      "youtube": "Q2crijh8LfM",
+      "duration": "3:21",
+      "thumb": "images/video-alex.jpg",
+      "blurb": "Teams, leadership and human-AI collaboration, a new lab study of team composition, and why initiative matters in a Ph.D. applicant."
+    },
+    {
+      "slug": "brooke-n-macnamara",
+      "person": "Brooke N. Macnamara",
+      "role": "Faculty",
+      "youtube": "HsP_KwB_pUE",
+      "duration": "3:01",
+      "thumb": "images/video-brooke.jpg",
+      "blurb": "How people get better at complex skills, and why a specific research question beats a broad topic in your statement."
+    },
+    {
+      "slug": "franki-y-h-kung",
+      "person": "Franki Y. H. Kung",
+      "role": "Faculty",
+      "youtube": "VSWa_s4Mykc",
+      "duration": "3:37",
+      "thumb": "images/video-franki.jpg",
+      "title": "Dropping in on Franki Kung",
+      "blurb": "The host takes the hot seat: conflict management, humanizing workplaces in the age of AI, and how to develop a strong research question."
+    },
+    {
       "slug": "louis-tay",
       "person": "Louis Tay",
       "role": "Faculty",
@@ -26,34 +54,6 @@
       "duration": "2:29",
       "thumb": "images/video-sangeun.jpg",
       "blurb": "Personality and motivation at work, what makes mentoring rewarding, and the three words that make an application stand out."
-    },
-    {
-      "slug": "brooke-n-macnamara",
-      "person": "Brooke N. Macnamara",
-      "role": "Faculty",
-      "youtube": "HsP_KwB_pUE",
-      "duration": "3:01",
-      "thumb": "images/video-brooke.jpg",
-      "blurb": "How people get better at complex skills, and why a specific research question beats a broad topic in your statement."
-    },
-    {
-      "slug": "alex-harris-watson",
-      "person": "Alex Harris-Watson",
-      "role": "Faculty",
-      "youtube": "Q2crijh8LfM",
-      "duration": "3:21",
-      "thumb": "images/video-alex.jpg",
-      "blurb": "Teams, leadership and human-AI collaboration, a new lab study of team composition, and why initiative matters in a Ph.D. applicant."
-    },
-    {
-      "slug": "franki-y-h-kung",
-      "person": "Franki Y. H. Kung",
-      "role": "Faculty",
-      "youtube": "VSWa_s4Mykc",
-      "duration": "3:37",
-      "thumb": "images/video-franki.jpg",
-      "title": "Dropping in on Franki Kung",
-      "blurb": "The host takes the hot seat: conflict management, humanizing workplaces in the age of AI, and how to develop a strong research question."
     },
     {
       "slug": "emma-showalter",
